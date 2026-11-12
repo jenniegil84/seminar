@@ -85,7 +85,7 @@ async function fill(page) {
     const { page, ctx } = await open(browser);
     await page.waitForLoadState('load');
     const imgs = await page.$$eval('img', a => a.map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, alt: i.alt })));
-    eq(imgs.map(i => i.src), ['logo.png', 'product-dashboard.png']);
+    eq(imgs.map(i => i.src), ['logo.png', 'product-visual.png']);
     eq(imgs.every(i => i.ok && i.alt), true, '이미지 로드·대체 글');
     await ctx.close();
   });
@@ -113,7 +113,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.02' });
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.03' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');
