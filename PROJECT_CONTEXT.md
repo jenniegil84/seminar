@@ -2,7 +2,7 @@
 
 > 이 프로젝트의 현재 상태·확정 정책·변경 이력을 쌓는 살아있는 문서.
 
-- 버전: v01.05
+- 버전: v01.06
 - 최초 작성일: 2026-11-12
 
 ## 1. 목적
@@ -44,13 +44,14 @@
 | Flow API Key · 연결 | **완료(2026-11-12)** — 회사(조직)용 키 사용(`FLOW_KEY_TYPE=org`). 개발자 사이트 로그인 불가로 개인용 키는 못 받음. 회사용 키는 권한이 커서 Apps Script 편집자 최소화 필요 |
 | Flow 담당자 초대 | 선택 — 알림 받을 사람을 프로젝트에 초대 |
 | 구글 시트 | **확정(2026-11-12)** — 공유 드라이브의 「세미나 신청내역」(사용자가 직접 생성) · https://docs.google.com/spreadsheets/d/1xGg8Y4HLOnB1XznSkS5s03gvcRUbaPH0do4mD0EYlcs/edit |
-| Apps Script 설치 · 웹 앱 배포 | 사용자 진행 필요(설치안내.md 2단계 2번부터) |
+| Apps Script 설치 · 웹 앱 배포 | **완료(2026-11-12)** — 웹 앱 주소는 `site/index.html` 의 `SEMINAR.endpoint` |
 | Netlify 새 프로젝트 연결 | **완료(2026-11-12)** — 공개 주소 https://semo-seminar.netlify.app/ · `main` 자동 공개. 화면 확인은 사용자 몫(이 실행 환경은 netlify.app 접속 차단) |
 
 ## 5. 변경 이력
 
 | 버전 | 날짜 | 내용 |
 |---|---|---|
+| v01.06 | 2026-11-12 | 페이지 v00.03 — Apps Script 웹 앱 주소를 `SEMINAR.endpoint` 에 연결(신청 버튼 열림). 작업 브랜치에만 반영, `main` 반영은 사용자 「배포해」 후 |
 | v01.05 | 2026-11-12 | **Flow 연결 성공** — 회사용 키 + `FLOW_KEY_TYPE=org` + `FLOW_REGISTER_ID` 로 `testFlow` 실행, 프로젝트 3009590 에 「[세미나 신청] 11/18 회차 · 연결 확인용 테스트」 업무 생성 확인(Flow MCP 로 조회, 16:26). org 경로(`POST /v1/posts/projects/{id}/tasks` + `registerId`) 실제 작동 확인 |
 | v01.04 | 2026-11-12 | Code.gs v00.02 — `testFlow` 가 `401 UNAUTHORIZED_ERROR`(사용자가 회사용 키를 넣음, 개발자 사이트 로그인 불가로 개인 키 발급 못 함). 회사용 키 경로(`FLOW_KEY_TYPE=org` → `/v1/…` + `registerId`) 추가 · 실패 시 응답 원문 기록 · 공백 제거. **org 경로 상세 명세는 미확인**(api.flow.team 접속 차단) — 사용자 실행 로그로 확인 중. 서버 하네스 30건 통과 |
 | v01.03 | 2026-11-12 | 구글 시트 확정 — 사용자가 공유 드라이브에 만든 「세미나 신청내역」 사용 |

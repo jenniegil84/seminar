@@ -16,7 +16,7 @@ async function open(browser, { endpoint = EP, reply, viewport } = {}) {
   const page = await ctx.newPage();
   const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => m.type() === 'error' && errors.push(m.text()));
   await page.clock.install({ time: FIXED });
-  const html = HTML.replace("endpoint: ''", "endpoint: '" + endpoint + "'");
+  const html = HTML.replace(/endpoint: '[^']*'/, "endpoint: '" + endpoint + "'");
   await page.route(/fonts\.(googleapis|gstatic)\.com/, r => r.fulfill({ contentType: 'text/css', body: '' }));
   await page.route('https://seminar.test/', r => r.fulfill({ contentType: 'text/html', body: html }));
   const sent = [];
@@ -96,7 +96,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-11-18', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v00.02' });
+    eq(sent[0], { session: '2026-11-18', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v00.03' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');
