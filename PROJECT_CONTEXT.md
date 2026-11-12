@@ -42,7 +42,7 @@
 | 벤치마크(wemembers) 반영 | **2회 요청 · 2회 모두 접속 차단**(이 실행 환경이 그 주소를 막음) — 화면 캡처 또는 조직 관리자의 접속 허용 필요 |
 | Flow 세미나 프로젝트 생성 | **완료(2026-11-12)** — `[세모R] 세미나 신청 관리` · 프로젝트 번호 **3009590** · https://flow.team/main.act?projectId=3009590 |
 | Flow API Key 발급 · 담당자 초대 | 사용자 진행 필요(설치안내.md 1단계 2~3번) |
-| 구글 시트 생성 | **완료(2026-11-12)** — 내 드라이브 「세미나 신청내역」 · https://docs.google.com/spreadsheets/d/1-yLlbXmexWIPTse4aFbzwPkg4V7zvbkq2XdDORgVnZc/edit (소유자 본인, 공유 안 됨) |
+| 구글 시트 | **확정(2026-11-12)** — 공유 드라이브의 「세미나 신청내역」(사용자가 직접 생성) · https://docs.google.com/spreadsheets/d/1xGg8Y4HLOnB1XznSkS5s03gvcRUbaPH0do4mD0EYlcs/edit |
 | Apps Script 설치 · 웹 앱 배포 | 사용자 진행 필요(설치안내.md 2단계 2번부터) |
 | Netlify 새 프로젝트 연결 | **완료(2026-11-12)** — 공개 주소 https://semo-seminar.netlify.app/ · `main` 자동 공개. 화면 확인은 사용자 몫(이 실행 환경은 netlify.app 접속 차단) |
 
@@ -50,7 +50,7 @@
 
 | 버전 | 날짜 | 내용 |
 |---|---|---|
-| v01.03 | 2026-11-12 | 구글 시트 「세미나 신청내역」 생성 기록 |
+| v01.03 | 2026-11-12 | 구글 시트 확정 — 사용자가 공유 드라이브에 만든 「세미나 신청내역」 사용 |
 | v01.02 | 2026-11-12 | Flow 세미나 프로젝트 생성 기록(projectId 3009590) |
 | v01.01 | 2026-11-12 | Netlify 공개 주소 기록(semo-seminar.netlify.app) |
 | v01.00 | 2026-11-12 | **독립 저장소로 이전** — BIZDB `세미나 신청/` 폴더 → `jenniegil84/seminar`. 사용자 「이건 BIZDB와 아무런 관계가 없어」. `netlify.toml`(공개 폴더 `site`) 추가, 문서 경로 정리, `USER_OPERATING_MANUAL.md` 사본 포함 |
