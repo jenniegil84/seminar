@@ -78,10 +78,13 @@ async function fill(page) {
     eq(await page.textContent('#curriMeta'), '30분 · 온라인 · 4개 주제');
     await ctx.close();
   });
-  await t('문의 버튼 → 채널톡 주소, 새 창, 흰 버튼', async () => {
+  await t('문의 버튼 → 채널톡 주소, 새 창, 노랑 버튼(캔버스 v01.04)', async () => {
     const { page, ctx } = await open(browser);
     eq(await page.getAttribute('#contactBtn', 'href'), 'https://qe398.channel.io'); eq(await page.getAttribute('#contactBtn', 'target'), '_blank');
-    eq(await page.$eval('#contactBtn', e => getComputedStyle(e).backgroundColor), 'rgb(255, 255, 255)');
+    eq(await page.$eval('#contactBtn', e => getComputedStyle(e).backgroundColor), 'rgb(255, 240, 39)');
+    eq(await page.$eval('#heroDday', e => getComputedStyle(e).backgroundColor), 'rgb(255, 240, 39)');
+    eq(await page.$$eval('#curriList .n', a => a.map(e => getComputedStyle(e).backgroundColor)), ['rgb(93, 114, 220)', 'rgb(0, 136, 255)', 'rgb(255, 182, 35)', 'rgb(255, 240, 39)']);
+    eq(await page.$eval('.sess[aria-checked="true"]', e => getComputedStyle(e).borderTopColor), 'rgb(0, 0, 0)');
     await ctx.close();
   });
   await t('개인정보 동의 내용: 기본 접힘 → 「보기」로 펼침', async () => {
@@ -127,7 +130,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v02.00' });
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v02.01' });
     eq(await page.textContent('#done h3'), '신청이 접수되었습니다.');
     eq(await page.textContent('#doneSummary'), '2026년 12월 16일 수요일 · 온라인 · 30분 · D-34');
     eq(await page.isVisible('#applyForm'), false);
