@@ -1,4 +1,4 @@
-// 하네스: Apps Script(Code.gs)를 가짜 구글/Flow 환경에서 돌려 검증 · v00.02
+// 하네스: Apps Script(Code.gs)를 가짜 구글/Flow 환경에서 돌려 검증 · v00.03
 // 실행: node harness/test_apps_script.js
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const src = fs.readFileSync(path.join(__dirname, '../apps-script/Code.gs'), 'utf8');
@@ -83,6 +83,23 @@ t('같은 이메일·다른 회차는 접수', () => { const e = makeEnv(); post
 t('Flow 키 미설정 → 시트는 기록, 상태 "미설정"', () => { const e = makeEnv({ props: { FLOW_API_KEY: '' } }); eq(post(e, good()).ok, true); eq(e.rows[1][8].startsWith('미설정'), true); eq(e.fetches.length, 0); });
 t('Flow 401 → 시트는 기록, 상태 "실패(401 …)"', () => { const e = makeEnv({ flowCode: 401 }); eq(post(e, good()).ok, true); eq(e.rows[1][8], '실패(401 UNAUTHORIZED_ERROR)'); });
 t('Flow 통신 예외 → 시트는 기록', () => { const e = makeEnv({ fetchThrow: true }); eq(post(e, good()).ok, true); eq(e.rows[1][8], '실패(timeout)'); });
+
+console.log('[회사(조직)용 키]');
+t('FLOW_KEY_TYPE=org → /v1/ 경로 + registerId', () => {
+  const e = makeEnv({ props: { FLOW_KEY_TYPE: 'org', FLOW_REGISTER_ID: ' Jennie@X.com ' } }); post(e, good());
+  eq(e.fetches[0].url, 'https://api.flow.team/v1/posts/projects/123/tasks'); eq(e.fetches[0].body.registerId, 'jennie@x.com'); eq(e.rows[1][8], '완료');
+});
+t('org 인데 FLOW_REGISTER_ID 없음 → 호출 안 함, 「미설정」 기록', () => {
+  const e = makeEnv({ props: { FLOW_KEY_TYPE: 'org' } }); eq(post(e, good()).ok, true); eq(e.fetches.length, 0); eq(e.rows[1][8], '미설정(FLOW_REGISTER_ID 필요)');
+});
+t('키·프로젝트 번호 앞뒤 공백 자동 제거', () => {
+  const e = makeEnv({ props: { FLOW_API_KEY: '  k \n', FLOW_PROJECT_ID: ' 123 ' } }); post(e, good());
+  eq(e.fetches[0].o.headers['x-flow-api-key'], 'k'); eq(e.fetches[0].url, 'https://api.flow.team/user/posts/projects/123/tasks');
+});
+t('testFlow 실패 결과에 응답 원문(detail) 포함', () => {
+  const e = makeEnv({ flowCode: 401 }); const r = e.ctx.createFlowTask_({ session: keys[0], name: 'a', phoneFormatted: '010', email: 'a@b.cc', office: 'o', topic: '', receivedAt: 'x' });
+  eq(r.detail.includes('UNAUTHORIZED_ERROR'), true);
+});
 
 console.log('[거절해야 하는 입력]');
 const bad = (patch, label) => t(label, () => { const e = makeEnv(); const r = post(e, Object.assign(good(), patch)); eq(r.ok, false); eq(e.rows.length, 0); });

@@ -1,6 +1,7 @@
 /**
  * 세미나 신청 접수 — 구글 시트 기록 + Flow 업무 등록
- * 버전: v00.01 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+ * 버전: v00.02 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+ * v00.02: 회사(조직)용 API Key 지원(FLOW_KEY_TYPE=org) · 실패 시 Flow 응답 원문 일부를 기록 · 키 앞뒤 공백 자동 제거
  *
  * 설치: 신청 내역을 쌓을 구글 시트에서 [확장 프로그램 → Apps Script] 를 열고
  *       이 파일 내용을 그대로 붙여넣는다(설치안내.md 참고).
@@ -9,6 +10,11 @@
  *   FLOW_API_KEY     (필수) Flow 개발자 포털 「키관리」에서 발급한 API Key
  *   FLOW_PROJECT_ID  (필수) 세미나 신청 알림을 받을 Flow 프로젝트 번호
  *   FLOW_WORKERS     (선택) 업무 담당자 Flow 아이디(이메일), 여러 명이면 쉼표로 구분
+ *   FLOW_KEY_TYPE    (선택) user(기본, 개인용 키) | org(회사·조직용 키)
+ *   FLOW_REGISTER_ID (org 일 때 필수) 업무 작성자로 표시할 Flow 아이디(로그인 이메일)
+ *
+ * ※ org 경로(/v1/…)와 registerId 는 Flow 문서 목록("/v1/* 는 조직 키, userId·registerId 를 직접 넘김")에
+ *   근거한 것이고 상세 명세는 아직 확인 못 함 — testFlow 실행 로그의 응답 원문으로 확인한다.
  *
  * Flow 값이 비어 있거나 Flow 호출이 실패해도 **시트 기록은 먼저 끝난다** — 신청은 잃지 않는다.
  * Flow 결과는 시트의 「Flow 등록」 칸에 남는다.
@@ -29,7 +35,7 @@ var COL = {}; HEADERS.forEach(function (h, i) { COL[h] = i + 1; });
 /* ── 진입점 ───────────────────────────────────────────────── */
 
 function doGet() {
-  return json_({ ok: true, service: 'seminar-apply', version: 'v00.01' });
+  return json_({ ok: true, service: 'seminar-apply', version: 'v00.02' });
 }
 
 function doPost(e) {
@@ -165,9 +171,13 @@ function formatPhone_(d) {
  */
 function createFlowTask_(v) {
   var props = PropertiesService.getScriptProperties();
-  var key = props.getProperty('FLOW_API_KEY');
-  var projectId = props.getProperty('FLOW_PROJECT_ID');
+  var prop = function (k) { return String(props.getProperty(k) || '').trim(); };
+  var key = prop('FLOW_API_KEY');
+  var projectId = prop('FLOW_PROJECT_ID');
+  var keyType = (prop('FLOW_KEY_TYPE') || 'user').toLowerCase();
+  var registerId = prop('FLOW_REGISTER_ID').toLowerCase();
   if (!key || !projectId) return { status: '미설정(스크립트 속성 확인)' };
+  if (keyType === 'org' && !registerId) return { status: '미설정(FLOW_REGISTER_ID 필요)' };
 
   var p = v.session.split('-');
   var sessionLabel = Number(p[1]) + '/' + Number(p[2]);
@@ -191,8 +201,11 @@ function createFlowTask_(v) {
     .map(function (s) { return s.trim().toLowerCase(); }).filter(String);
   if (workers.length) body.workers = workers.map(function (w) { return { workerId: w }; });
 
+  var path = keyType === 'org' ? '/v1/posts/projects/' : '/user/posts/projects/';
+  if (keyType === 'org') body.registerId = registerId;
+
   try {
-    var res = UrlFetchApp.fetch(CONFIG.flowApiBase + '/user/posts/projects/' + encodeURIComponent(projectId) + '/tasks', {
+    var res = UrlFetchApp.fetch(CONFIG.flowApiBase + path + encodeURIComponent(projectId) + '/tasks', {
       method: 'post',
       contentType: 'application/json',
       headers: { 'x-flow-api-key': key },
@@ -200,14 +213,15 @@ function createFlowTask_(v) {
       muteHttpExceptions: true
     });
     var code = res.getResponseCode();
+    var text = res.getContentText();
     var parsed = {};
-    try { parsed = JSON.parse(res.getContentText()); } catch (ignore) {}
+    try { parsed = JSON.parse(text); } catch (ignore) {}
     var r = parsed.response || parsed;
     if (code >= 200 && code < 300 && r.success !== false) {
       return { status: '완료', url: (r.data && r.data.tinyUrl) || '' };
     }
     var msg = (r.error && (r.error.code || r.error.message)) || r.message || '';
-    return { status: '실패(' + code + (msg ? ' ' + msg : '') + ')' };
+    return { status: '실패(' + code + (msg ? ' ' + msg : '') + ')', detail: String(text || '').slice(0, 300) };
   } catch (err) {
     return { status: '실패(' + String(err && err.message || err).slice(0, 80) + ')' };
   }
