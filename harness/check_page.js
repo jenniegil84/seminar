@@ -122,7 +122,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.04' });
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.05' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');

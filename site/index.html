@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v01.04 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v01.05 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+     v01.05: 노란 형광펜 강조 제거(사용자 요청)
      v01.04: 가이드 전체 컬러 사용 — 별도 컬러(SOS 노랑·주황=채팅 상담·형광펜, 인증서 파랑·연결 보라=안내 아이콘), 수치 표현(D-day 빨강/파랑)
      v01.03: 「Semo Design System Guide」 공식 컬러 적용 · 제품 이미지를 대시보드+모바일 보고서 합성 이미지로 교체
      v01.02: 신청 시작 회차(openFrom) — 2026-11 회차 제외, 12월부터 접수
      v01.01: 공식 로고(세모디자인/SEMOR_logo_Br.png) 적용 · 실제 제품 화면(대시보드, 이름 없는 영역만 잘라 씀) 밴드 추가 · 포인트 색을 로고 색 #2CBAA0 으로
      v01.00: 디자인 전면 개편(콘셉트 「Editorial Schedule」) — 날짜를 핵심 비주얼로, 카드 반복 대신 행·열 구조, 민트는 포인트로만 -->
-<meta name="page-version" content="v01.04">
+<meta name="page-version" content="v01.05">
 <title>세모리포트 사용법 교육 세미나</title>
 <meta name="description" content="세모리포트 사용법 교육 세미나 — 매월 셋째 주 수요일 온라인 진행. 정원 제한 없이 누구나 신청할 수 있습니다.">
 <meta property="og:title" content="세모리포트 사용법 교육 세미나">
@@ -80,7 +81,6 @@ button{font-family:inherit}
 .eyebrow::before{content:'';width:20px;height:2px;background:var(--mint)}
 .hero h1{margin-top:20px;font-size:54px;line-height:1.16;font-weight:700;color:var(--ink);letter-spacing:-.035em}
 .hero .lead{margin-top:22px;max-width:30em;font-size:18px;line-height:1.7;color:var(--muted)}
-.hl{background:linear-gradient(transparent 58%,var(--sos) 58%);color:var(--ink);font-weight:500;padding:0 2px}
 .hero-actions{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap}
 
 .facts{margin-top:56px;display:grid;grid-auto-flow:column;grid-auto-columns:max-content;border-top:1px solid var(--line)}
@@ -272,7 +272,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
       <div>
         <span class="eyebrow">매월 셋째 주 수요일 · 온라인</span>
         <h1>세모리포트 사용법<br>교육 세미나</h1>
-        <p class="lead"><mark class="hl">정원 제한 없이</mark>, 원하는 회차를 골라 신청하세요.</p>
+        <p class="lead">정원 제한 없이, 원하는 회차를 골라 신청하세요.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#apply">세미나 신청하기
             <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -443,7 +443,7 @@ var SEMINAR = {
   // Apps Script 웹 앱 주소(설치안내.md 2단계에서 발급). 비어 있으면 신청 버튼이 막힌다.
   endpoint: 'https://script.google.com/macros/s/AKfycbxfhjbHhWALDw0XLK0s8HUXBkQbksgP0hjSZ3Bdf3uJSOsZMZLmcKXy2BF6H8a8vtxvVw/exec'
 };
-var PAGE_VERSION = 'v01.04';
+var PAGE_VERSION = 'v01.05';
 
 /* ── 회차 계산 ─────────────────────────────────────────────── */
 // 한국 시간 기준 '오늘' (방문자 기기 시간대와 무관하게)
