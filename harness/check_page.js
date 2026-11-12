@@ -90,6 +90,15 @@ async function fill(page) {
     await ctx.close();
   });
 
+  await t('D-day 색: 7일 넘으면 하강 파랑, 문의 버튼은 SOS 노랑', async () => {
+    const { page, ctx } = await open(browser);
+    eq(await page.$eval('#heroDday', e => getComputedStyle(e).color), 'rgb(36, 91, 243)');
+    eq(await page.$eval('#contactBtn', e => getComputedStyle(e).backgroundColor), 'rgb(255, 240, 39)');
+    eq(await page.$$eval('.fact .k svg', a => a.length), 4);
+    eq(await page.evaluate(() => [ddaySoon({ y: 2026, m: 11, d: 16 }, new Date('2026-12-10T03:00:00Z')), ddaySoon({ y: 2026, m: 11, d: 16 }, new Date('2026-12-01T03:00:00Z'))]), [true, false], '7일 이내만 빨강');
+    await ctx.close();
+  });
+
   console.log('[입력 검증]');
   await t('빈 채로 제출 → 필수 5칸 오류 표시, 전송 없음', async () => {
     const { page, ctx, sent } = await open(browser);
@@ -113,7 +122,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.03' });
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.04' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');

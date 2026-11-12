@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v01.03 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v01.04 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+     v01.04: 가이드 전체 컬러 사용 — 별도 컬러(SOS 노랑·주황=채팅 상담·형광펜, 인증서 파랑·연결 보라=안내 아이콘), 수치 표현(D-day 빨강/파랑)
      v01.03: 「Semo Design System Guide」 공식 컬러 적용 · 제품 이미지를 대시보드+모바일 보고서 합성 이미지로 교체
      v01.02: 신청 시작 회차(openFrom) — 2026-11 회차 제외, 12월부터 접수
      v01.01: 공식 로고(세모디자인/SEMOR_logo_Br.png) 적용 · 실제 제품 화면(대시보드, 이름 없는 영역만 잘라 씀) 밴드 추가 · 포인트 색을 로고 색 #2CBAA0 으로
      v01.00: 디자인 전면 개편(콘셉트 「Editorial Schedule」) — 날짜를 핵심 비주얼로, 카드 반복 대신 행·열 구조, 민트는 포인트로만 -->
-<meta name="page-version" content="v01.03">
+<meta name="page-version" content="v01.04">
 <title>세모리포트 사용법 교육 세미나</title>
 <meta name="description" content="세모리포트 사용법 교육 세미나 — 매월 셋째 주 수요일 온라인 진행. 정원 제한 없이 누구나 신청할 수 있습니다.">
 <meta property="og:title" content="세모리포트 사용법 교육 세미나">
@@ -27,6 +28,10 @@
   --mint:#17BF98; --mint-600:#12997A; --mint-700:#12997A; --mint-50:#F3FFF4;
   --btn:#17BF98; --off-bg:#EBEBEB; --off-fg:#CECECE;
   --red:#FF5353; --red-50:#FFF5F5;  /* 오류 표시 — 가이드에 별도 오류색이 없어 「상승」 빨강을 씀(확인 필요) */
+  /* 가이드 「수치 표현」 — D-day 숫자에만 */
+  --up:#FF5353; --down:#245BF3;
+  /* 가이드 「별도 컬러」(프로모션 페이지용) — 의미가 맞는 곳에만 */
+  --sos:#FFF027; --sos-2:#FFB623; --cert:#0088FF; --link:#5D72DC;
   --radius:14px; --radius-sm:10px;
   --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px -12px rgba(0,0,0,.12);
   --font:'Inter','Noto Sans KR','Apple SD Gothic Neo',sans-serif;
@@ -64,6 +69,8 @@ button{font-family:inherit}
 .btn-primary:disabled{background:var(--off-bg);color:var(--off-fg);cursor:not-allowed;transform:none}
 .btn-ghost{height:52px;padding:0 20px;font-size:16px;color:var(--ink);background:transparent;border:1px solid var(--line)}
 .btn-ghost:hover{border-color:var(--off-fg);background:var(--surface)}
+.btn-sos{height:52px;padding:0 22px;font-size:16px;font-weight:700;color:#000;background:var(--sos);border:1px solid var(--sos-2)}
+.btn-sos:hover{background:var(--sos-2)}
 .arrow{display:inline-block;width:16px;height:16px}
 
 /* ── 히어로 ── */
@@ -73,13 +80,15 @@ button{font-family:inherit}
 .eyebrow::before{content:'';width:20px;height:2px;background:var(--mint)}
 .hero h1{margin-top:20px;font-size:54px;line-height:1.16;font-weight:700;color:var(--ink);letter-spacing:-.035em}
 .hero .lead{margin-top:22px;max-width:30em;font-size:18px;line-height:1.7;color:var(--muted)}
+.hl{background:linear-gradient(transparent 58%,var(--sos) 58%);color:var(--ink);font-weight:500;padding:0 2px}
 .hero-actions{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap}
 
 .facts{margin-top:56px;display:grid;grid-auto-flow:column;grid-auto-columns:max-content;border-top:1px solid var(--line)}
 .fact{padding:18px 28px 0 0}
 .fact + .fact{padding-left:28px;border-left:1px solid var(--line-2)}
 .fact .v{white-space:nowrap}
-.fact .k{font-size:13px;font-weight:500;color:var(--subtle)}
+.fact .k{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--subtle)}
+.fact .k svg{flex-shrink:0}
 .fact .v{margin-top:4px;font-size:15px;font-weight:600;color:var(--ink)}
 
 /* 다음 회차 패널 — 날짜가 곧 비주얼 */
@@ -87,7 +96,10 @@ button{font-family:inherit}
 .next::before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--mint)}
 .next-top{display:flex;align-items:center;justify-content:space-between}
 .next-lbl{font-size:14px;font-weight:600;color:var(--muted)}
-.dday{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;background:var(--mint-50);color:var(--mint-700);font-size:13px;font-weight:700;letter-spacing:.01em}
+.dday{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid var(--down);color:var(--down);font-size:13px;font-weight:700;letter-spacing:.01em}
+.dday.soon{border-color:var(--up);color:var(--up)}
+.dd{font-weight:700;color:var(--down)}
+.dd.soon{color:var(--up)}
 .next-date{margin-top:20px;font-size:104px;line-height:.95;font-weight:700;color:var(--ink);letter-spacing:-.05em}
 .next-date .dot{color:var(--mint)}
 .next-day{margin-top:12px;font-size:20px;font-weight:600;color:var(--ink)}
@@ -260,7 +272,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
       <div>
         <span class="eyebrow">매월 셋째 주 수요일 · 온라인</span>
         <h1>세모리포트 사용법<br>교육 세미나</h1>
-        <p class="lead">정원 제한 없이, 원하는 회차를 골라 신청하세요.</p>
+        <p class="lead"><mark class="hl">정원 제한 없이</mark>, 원하는 회차를 골라 신청하세요.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#apply">세미나 신청하기
             <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -398,7 +410,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
         <h2>궁금한 점이 있으신가요?</h2>
         <p>세미나에 대한 문의는 채팅 상담으로 남겨 주세요.</p>
       </div>
-      <a class="btn btn-ghost" id="contactBtn" href="#" target="_blank" rel="noopener noreferrer">채팅 문의하기
+      <a class="btn btn-sos" id="contactBtn" href="#" target="_blank" rel="noopener noreferrer">채팅 문의하기
         <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </section>
@@ -431,7 +443,7 @@ var SEMINAR = {
   // Apps Script 웹 앱 주소(설치안내.md 2단계에서 발급). 비어 있으면 신청 버튼이 막힌다.
   endpoint: 'https://script.google.com/macros/s/AKfycbxfhjbHhWALDw0XLK0s8HUXBkQbksgP0hjSZ3Bdf3uJSOsZMZLmcKXy2BF6H8a8vtxvVw/exec'
 };
-var PAGE_VERSION = 'v01.03';
+var PAGE_VERSION = 'v01.04';
 
 /* ── 회차 계산 ─────────────────────────────────────────────── */
 // 한국 시간 기준 '오늘' (방문자 기기 시간대와 무관하게)
@@ -462,6 +474,23 @@ function dday(s, now){
   var diff = Math.round((Date.UTC(s.y, s.m, s.d) - Date.UTC(t.y, t.m, t.d)) / 86400000);
   return diff <= 0 ? 'D-DAY' : 'D-' + diff;
 }
+// D-day 가 7일 이내면 「상승」 빨강(임박), 아니면 「하강」 파랑 — 가이드 수치 표현 색
+function ddaySoon(s, now){
+  var t = todayKST(now);
+  return (Date.UTC(s.y, s.m, s.d) - Date.UTC(t.y, t.m, t.d)) / 86400000 <= 7;
+}
+// 안내 줄 아이콘 — 가이드 별도 컬러를 의미에 맞게
+var FACT_ICON = {
+  '일정': ['var(--cert)', '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
+  '시간': ['var(--cert)', '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'],
+  '진행 방식': ['var(--link)', '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'],
+  '정원': ['var(--sos-2)', '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.3c3 .2 5.5 2.6 5.5 5.7"/>'],
+  '신청 마감': ['var(--mint)', '<path d="M5 12.5l4.5 4.5L19 7.5"/>']
+};
+function factIcon(k){
+  var ic = FACT_ICON[k]; if (!ic) return '';
+  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + ic[0] + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic[1] + '</svg>';
+}
 function pad(n){ return (n < 10 ? '0' : '') + n; }
 var WD = ['일','월','화','수','목','금','토'];
 function wd(){ return WD[SEMINAR.scheduleRule.weekday]; }
@@ -484,7 +513,7 @@ function render(){
     document.getElementById('heroNextDate').innerHTML = pad(n.m + 1) + '<span class="dot">.</span>' + pad(n.d);
     document.getElementById('heroNextDay').textContent = wd() + '요일';
     document.getElementById('heroNextMeta').textContent = metaLine(n);
-    document.getElementById('heroDday').textContent = dday(n);
+    var dd = document.getElementById('heroDday'); dd.textContent = dday(n); dd.classList.toggle('soon', ddaySoon(n));
   }
 
   var facts = [
@@ -495,14 +524,14 @@ function render(){
     ['신청 마감', SEMINAR.deadlineLabel]
   ].filter(function(f){ return f[1]; });
   document.getElementById('facts').innerHTML = facts.map(function(f){
-    return '<div class="fact"><div class="k">' + esc(f[0]) + '</div><div class="v">' + esc(f[1]) + '</div></div>';
+    return '<div class="fact"><div class="k">' + factIcon(f[0]) + esc(f[0]) + '</div><div class="v">' + esc(f[1]) + '</div></div>';
   }).join('');
 
   document.getElementById('sessions').innerHTML = list.map(function(s, i){
     return '<li class="session' + (i === 0 ? ' is-next' : '') + '">' +
       '<div class="when num">' + pad(s.m + 1) + '.' + pad(s.d) + '<small>' + s.y + '</small></div>' +
       '<div class="info"><div class="date">' + (s.m + 1) + '월 ' + s.d + '일 ' + wd() + '요일' + (i === 0 ? '<span class="tag">다음 회차</span>' : '') + '</div>' +
-      '<div class="meta"><span class="num">' + dday(s) + '</span> · ' + esc(SEMINAR.format) + (SEMINAR.time ? ' · ' + esc(SEMINAR.time) : '') + '</div></div>' +
+      '<div class="meta"><span class="num dd' + (ddaySoon(s) ? ' soon' : '') + '">' + dday(s) + '</span> · ' + esc(SEMINAR.format) + (SEMINAR.time ? ' · ' + esc(SEMINAR.time) : '') + '</div></div>' +
       '<button type="button" class="pick" data-key="' + s.key + '">이 회차 신청</button>' +
       '</li>';
   }).join('');
