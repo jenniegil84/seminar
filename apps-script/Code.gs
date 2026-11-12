@@ -1,6 +1,7 @@
 /**
  * 세미나 신청 접수 — 구글 시트 기록 + Flow 업무 등록
- * 버전: v00.02 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+ * 버전: v00.03 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+ * v00.03: 신청 시작 회차(openFrom) 추가 — 이 날짜 이전 회차는 신청을 받지 않는다(2026-11 회차 제외)
  * v00.02: 회사(조직)용 API Key 지원(FLOW_KEY_TYPE=org) · 실패 시 Flow 응답 원문 일부를 기록 · 키 앞뒤 공백 자동 제거
  *
  * 설치: 신청 내역을 쌓을 구글 시트에서 [확장 프로그램 → Apps Script] 를 열고
@@ -23,6 +24,7 @@ var CONFIG = {
   sheetName: '신청내역',
   schedule: { weekOfMonth: 3, weekday: 3 },  // 매월 셋째 주 수요일 — 페이지(index.html)의 SEMINAR.scheduleRule 과 같아야 한다
   allowedSessions: 3,                         // 페이지가 보여주는 회차 수와 같게
+  openFrom: '2026-12-01',                     // 이 날짜 이전 회차는 받지 않음 — 페이지 SEMINAR.openFrom 과 같아야 한다(null 이면 제한 없음)
   flowApiBase: 'https://api.flow.team',
   seminarTitle: '세모리포트 사용법 교육 세미나'
 };
@@ -34,7 +36,7 @@ var COL = {}; HEADERS.forEach(function (h, i) { COL[h] = i + 1; });
 /* ── 진입점 ───────────────────────────────────────────────── */
 
 function doGet() {
-  return json_({ ok: true, service: 'seminar-apply', version: 'v00.02' });
+  return json_({ ok: true, service: 'seminar-apply', version: 'v00.03' });
 }
 
 function doPost(e) {
@@ -116,8 +118,10 @@ function upcomingSessionKeys_(count, now) {
   while (out.length < count && guard++ < 24) {
     var first = new Date(Date.UTC(y, m, 1)).getUTCDay();
     var day = 1 + ((CONFIG.schedule.weekday - first + 7) % 7) + (CONFIG.schedule.weekOfMonth - 1) * 7;
-    if (y > ty || (y === ty && m > tm) || (y === ty && m === tm && day >= td)) {
-      out.push(y + '-' + pad_(m + 1) + '-' + pad_(day));
+    var key = y + '-' + pad_(m + 1) + '-' + pad_(day);
+    var open = !CONFIG.openFrom || key >= CONFIG.openFrom;
+    if (open && (y > ty || (y === ty && m > tm) || (y === ty && m === tm && day >= td))) {
+      out.push(key);
     }
     m++; if (m > 11) { m = 0; y++; }
   }

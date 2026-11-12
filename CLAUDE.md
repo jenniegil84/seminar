@@ -38,8 +38,9 @@
 
 1. 세미나 내용(시간·문구·문의처·로고·동의 문구)은 `site/index.html` 맨 아래 `SEMINAR` 설정만 고친다.
    값이 `null` 이면 화면에 표시하지 않는다 — 확정 안 된 정보를 지어 넣지 않는다.
-2. **회차 규칙은 두 곳에 있다** — `site/index.html` 의 `SEMINAR.scheduleRule`·`upcomingCount` 와
-   `apps-script/Code.gs` 의 `CONFIG.schedule`·`allowedSessions`. 한쪽만 바꾸면 서버가 신청을 거절한다.
+2. **회차 규칙은 두 곳에 있다** — `site/index.html` 의 `SEMINAR.scheduleRule`·`upcomingCount`·`openFrom` 과
+   `apps-script/Code.gs` 의 `CONFIG.schedule`·`allowedSessions`·`openFrom`. 한쪽만 바꾸면 서버가 신청을 거절한다.
+   - 둘 다 바꿨으면 **Code.gs 재배포(새 버전)를 먼저**, 페이지 배포를 나중에 한다 — 반대로 하면 새 페이지에만 있는 회차가 옛 서버에서 거절된다.
 3. 신청 항목을 추가·변경하면 **페이지 폼 · 페이지 `RULES` · Code.gs `validate_`·`HEADERS` · Flow 본문 · 동의 문구의 수집 항목**을 함께 고친다.
 4. Code.gs 를 고치면 사용자가 Apps Script 에 **다시 붙여넣고 「배포 관리 → 새 버전」**으로 재배포해야 반영된다. 보고에 반드시 적는다.
 5. 버전을 올리면 `index.html` 의 주석·`page-version`·`PAGE_VERSION`, Code.gs 머리말·`doGet` 을 함께 갱신한다.

@@ -46,15 +46,18 @@ function eq(a, b, m) { if (JSON.stringify(a) !== JSON.stringify(b)) throw new Er
 
 // 회차 계산 검증용: 오늘(KST) 기준 다음 회차를 Code.gs 함수로 얻는다
 const env0 = makeEnv();
+const envRule = makeEnv(); envRule.ctx.CONFIG.openFrom = null; // 셋째 주 수요일 계산 자체는 openFrom 없이 검증
 const keys = env0.ctx.upcomingSessionKeys_(3, new Date());
 const good = () => ({ session: keys[0], name: '홍길동', phone: '010-1234-5678', email: 'Hong@Example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v00.01' });
 
 console.log('[회차 계산]');
-t('2026-11-12 → 11/18, 12/16, 2027-01-20 (셋째 주 수요일)', () => eq(env0.ctx.upcomingSessionKeys_(3, new Date('2026-11-12T03:00:00Z')), ['2026-11-18', '2026-12-16', '2027-01-20']));
-t('당일(11/18 KST 23시)도 신청 가능', () => eq(env0.ctx.upcomingSessionKeys_(1, new Date('2026-11-18T14:00:00Z'))[0], '2026-11-18'));
-t('다음날(11/19 KST 00시)이면 12월 회차부터', () => eq(env0.ctx.upcomingSessionKeys_(1, new Date('2026-11-18T15:00:00Z'))[0], '2026-12-16'));
-t('1일이 수요일인 달(2027-09): 15일', () => eq(env0.ctx.upcomingSessionKeys_(1, new Date('2027-09-01T00:00:00Z'))[0], '2027-09-15'));
-t('1일이 목요일인 달(2026-10): 21일', () => eq(env0.ctx.upcomingSessionKeys_(1, new Date('2026-10-01T00:00:00Z'))[0], '2026-10-21'));
+t('2026-11-12 → 11/18, 12/16, 2027-01-20 (셋째 주 수요일)', () => eq(envRule.ctx.upcomingSessionKeys_(3, new Date('2026-11-12T03:00:00Z')), ['2026-11-18', '2026-12-16', '2027-01-20']));
+t('openFrom 2026-12-01 → 11월 회차 제외: 12/16, 1/20, 2/17', () => eq(env0.ctx.upcomingSessionKeys_(3, new Date('2026-11-12T03:00:00Z')), ['2026-12-16', '2027-01-20', '2027-02-17']));
+t('11/18 회차로 신청 → 거절', () => { const e = makeEnv(); const r = post(e, Object.assign(good(), { session: '2026-11-18' })); eq(r.ok, false); eq(e.rows.length, 0); });
+t('당일(11/18 KST 23시)도 신청 가능', () => eq(envRule.ctx.upcomingSessionKeys_(1, new Date('2026-11-18T14:00:00Z'))[0], '2026-11-18'));
+t('다음날(11/19 KST 00시)이면 12월 회차부터', () => eq(envRule.ctx.upcomingSessionKeys_(1, new Date('2026-11-18T15:00:00Z'))[0], '2026-12-16'));
+t('1일이 수요일인 달(2027-09): 15일', () => eq(envRule.ctx.upcomingSessionKeys_(1, new Date('2027-09-01T00:00:00Z'))[0], '2027-09-15'));
+t('1일이 목요일인 달(2026-10): 21일', () => eq(envRule.ctx.upcomingSessionKeys_(1, new Date('2026-10-01T00:00:00Z'))[0], '2026-10-21'));
 
 console.log('[정상 신청]');
 t('시트에 머리줄 + 1행, Flow 완료·링크 기록', () => {

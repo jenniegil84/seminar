@@ -46,16 +46,16 @@ async function fill(page) {
   });
 
   console.log('[화면 내용 — 기준일 2026-11-12]');
-  await t('다음 세미나 = 11.18 · 수요일 · 2026년 · 온라인 · D-6', async () => {
+  await t('다음 세미나 = 12.16 · 수요일 · 2026년 · 온라인 · D-34 (11월 회차 제외)', async () => {
     const { page, ctx } = await open(browser);
-    eq(await page.textContent('#heroNextDate'), '11.18'); eq(await page.textContent('#heroNextDay'), '수요일');
-    eq(await page.textContent('#heroNextMeta'), '2026년 · 온라인'); eq(await page.textContent('#heroDday'), 'D-6');
-    eq(await page.textContent('#selDate'), '11월 18일 수요일'); await ctx.close();
+    eq(await page.textContent('#heroNextDate'), '12.16'); eq(await page.textContent('#heroNextDay'), '수요일');
+    eq(await page.textContent('#heroNextMeta'), '2026년 · 온라인'); eq(await page.textContent('#heroDday'), 'D-34');
+    eq(await page.textContent('#selDate'), '12월 16일 수요일'); await ctx.close();
   });
-  await t('일정 3개 · 회차 선택지 3개(11/18, 12/16, 1/20)', async () => {
+  await t('일정 3개 · 회차 선택지 3개(12/16, 1/20, 2/17)', async () => {
     const { page, ctx } = await open(browser);
     eq(await page.locator('#sessions li').count(), 3);
-    eq(await page.$$eval('#session option', o => o.map(x => x.value)), ['2026-11-18', '2026-12-16', '2027-01-20']);
+    eq(await page.$$eval('#session option', o => o.map(x => x.value)), ['2026-12-16', '2027-01-20', '2027-02-17']);
     await ctx.close();
   });
   await t('시간 미정(null) → 「시간」 카드 숨김, 안내 카드 4개', async () => {
@@ -72,7 +72,7 @@ async function fill(page) {
   await t('일정의 「이 회차 신청」 → 신청서 회차가 그 날짜로 바뀜', async () => {
     const { page, ctx } = await open(browser);
     await page.click('#sessions li:nth-child(2) .pick');
-    eq(await page.inputValue('#session'), '2026-12-16'); eq(await page.textContent('#selDate'), '12월 16일 수요일'); await ctx.close();
+    eq(await page.inputValue('#session'), '2027-01-20'); eq(await page.textContent('#selDate'), '1월 20일 수요일'); await ctx.close();
   });
   await t('개인정보 동의 내용: 기본 접힘 → 「내용 보기」로 펼침', async () => {
     const { page, ctx } = await open(browser);
@@ -113,7 +113,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-11-18', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.01' });
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.02' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');
