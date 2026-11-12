@@ -18,7 +18,12 @@ async function open(browser, { endpoint = EP, reply, viewport } = {}) {
   await page.clock.install({ time: FIXED });
   const html = HTML.replace(/endpoint: '[^']*'/, "endpoint: '" + endpoint + "'");
   await page.route(/fonts\.(googleapis|gstatic)\.com/, r => r.fulfill({ contentType: 'text/css', body: '' }));
-  await page.route('https://seminar.test/', r => r.fulfill({ contentType: 'text/html', body: html }));
+  await page.route('https://seminar.test/**', r => {
+    const p = new URL(r.request().url()).pathname;
+    if (p === '/' ) return r.fulfill({ contentType: 'text/html', body: html });
+    const f = path.join(__dirname, '../site', decodeURIComponent(p));
+    return fs.existsSync(f) ? r.fulfill({ path: f }) : r.fulfill({ status: 404, body: '' });
+  });
   const sent = [];
   await page.route(EP, async r => { sent.push(JSON.parse(r.request().postData())); await r.fulfill({ contentType: 'application/json', body: JSON.stringify(reply || { ok: true }), headers: { 'access-control-allow-origin': '*' } }); });
   await page.goto('https://seminar.test/');
@@ -76,6 +81,15 @@ async function fill(page) {
     eq((await page.textContent('#consentTable')).includes('보유 기간'), true); await ctx.close();
   });
 
+  await t('공식 로고 · 제품 화면 이미지가 실제로 뜸(깨진 이미지 없음)', async () => {
+    const { page, ctx } = await open(browser);
+    await page.waitForLoadState('load');
+    const imgs = await page.$$eval('img', a => a.map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, alt: i.alt })));
+    eq(imgs.map(i => i.src), ['logo.png', 'product-dashboard.png']);
+    eq(imgs.every(i => i.ok && i.alt), true, '이미지 로드·대체 글');
+    await ctx.close();
+  });
+
   console.log('[입력 검증]');
   await t('빈 채로 제출 → 필수 5칸 오류 표시, 전송 없음', async () => {
     const { page, ctx, sent } = await open(browser);
@@ -99,7 +113,7 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-11-18', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.00' });
+    eq(sent[0], { session: '2026-11-18', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.01' });
     eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');

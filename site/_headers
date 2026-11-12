@@ -1,4 +1,4 @@
-# 세미나 신청 페이지 보안 머리글 · v00.02 (2026-11-12)
+# 세미나 신청 페이지 보안 머리글 · v00.02 (2026-11-12) — 이미지는 같은 사이트(img-src 'self')만 쓴다
 # v00.02: 세모리포트 서비스 폰트(Noto Sans KR, Google Fonts) 허용
 # connect-src: 신청서를 받는 구글 Apps Script 주소만 허용(script.google.com 이 googleusercontent 로 넘겨준다)
 /*
