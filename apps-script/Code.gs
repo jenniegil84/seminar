@@ -13,8 +13,7 @@
  *   FLOW_KEY_TYPE    (선택) user(기본, 개인용 키) | org(회사·조직용 키)
  *   FLOW_REGISTER_ID (org 일 때 필수) 업무 작성자로 표시할 Flow 아이디(로그인 이메일)
  *
- * ※ org 경로(/v1/…)와 registerId 는 Flow 문서 목록("/v1/* 는 조직 키, userId·registerId 를 직접 넘김")에
- *   근거한 것이고 상세 명세는 아직 확인 못 함 — testFlow 실행 로그의 응답 원문으로 확인한다.
+ * ※ org 경로(/v1/…) + registerId 는 2026-11-12 testFlow 로 실제 작동 확인(프로젝트 3009590 에 업무 생성).
  *
  * Flow 값이 비어 있거나 Flow 호출이 실패해도 **시트 기록은 먼저 끝난다** — 신청은 잃지 않는다.
  * Flow 결과는 시트의 「Flow 등록」 칸에 남는다.
