@@ -1,4 +1,4 @@
-// 하네스: 신청 페이지를 실제 브라우저로 열어 화면·검증·제출 흐름을 확인 · v01.00
+// 하네스: 신청 페이지를 실제 브라우저로 열어 화면·검증·제출 흐름을 확인 · v02.00(디자인 캔버스 기준 구조)
 // 실행: node harness/check_page.js  (스크린샷은 harness/out/ 에 저장, 저장소에 올리지 않음)
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
@@ -46,56 +46,61 @@ async function fill(page) {
   });
 
   console.log('[화면 내용 — 기준일 2026-11-12]');
-  await t('다음 세미나 = 12.16 · 수요일 · 2026년 · 온라인 · D-34 (11월 회차 제외)', async () => {
+  await t('다음 세미나 티켓 = 12.16 · 수요일 · 온라인 · 2026년 · 30분 · 정원 제한 없음 · D-34', async () => {
     const { page, ctx } = await open(browser);
-    eq(await page.textContent('#heroNextDate'), '12.16'); eq(await page.textContent('#heroNextDay'), '수요일');
-    eq(await page.textContent('#heroNextMeta'), '2026년 · 온라인'); eq(await page.textContent('#heroDday'), 'D-34');
-    eq(await page.textContent('#selDate'), '12월 16일 수요일'); await ctx.close();
-  });
-  await t('일정 3개 · 회차 선택지 3개(12/16, 1/20, 2/17)', async () => {
-    const { page, ctx } = await open(browser);
-    eq(await page.locator('#sessions li').count(), 3);
-    eq(await page.$$eval('#session option', o => o.map(x => x.value)), ['2026-12-16', '2027-01-20', '2027-02-17']);
+    eq(await page.textContent('#eyebrow'), '매월 셋째 주 수요일 · 온라인 · 30분');
+    eq(await page.textContent('#heroNextDate'), '12.16'); eq(await page.textContent('#heroNextDay'), '수요일 · 온라인');
+    eq(await page.textContent('#heroNextMeta'), '2026년 · 30분 · 정원 제한 없음'); eq(await page.textContent('#heroDday'), 'D-34');
     await ctx.close();
   });
-  await t('시간 미정(null) → 「시간」 카드 숨김, 안내 카드 4개', async () => {
+  await t('회차 카드 3개(12/16, 1/20, 2/17) · 첫 회차 선택됨 · 신청서 요약·버튼 반영', async () => {
     const { page, ctx } = await open(browser);
-    const ks = await page.$$eval('.fact .k', e => e.map(x => x.textContent)); eq(ks, ['일정', '진행 방식', '정원', '신청 마감']);
+    eq(await page.$$eval('.sess', b => b.map(x => x.dataset.key)), ['2026-12-16', '2027-01-20', '2027-02-17']);
+    eq(await page.$$eval('.sess', b => b.map(x => x.getAttribute('aria-checked'))), ['true', 'false', 'false']);
+    eq(await page.inputValue('#session'), '2026-12-16');
+    eq(await page.textContent('#selDate'), '12월 16일 수요일'); eq(await page.textContent('#selDateBig'), '12.16');
+    eq(await page.textContent('#submitBtn'), '12월 16일 세미나 신청하기');
     await ctx.close();
   });
-  await t('문의 버튼 → 채널톡 주소, 새 창', async () => {
+  await t('회차 카드 클릭·방향키 → 선택 이동, 신청서에 반영', async () => {
+    const { page, ctx } = await open(browser);
+    await page.click('.sess:nth-child(2)');
+    eq(await page.inputValue('#session'), '2027-01-20'); eq(await page.textContent('#selDate'), '1월 20일 수요일');
+    eq(await page.textContent('#submitBtn'), '1월 20일 세미나 신청하기');
+    await page.keyboard.press('ArrowDown');
+    eq(await page.inputValue('#session'), '2027-02-17');
+    await ctx.close();
+  });
+  await t('핵심 정보 5칸(시간 미정이라 숨김) · 커리큘럼 4개', async () => {
+    const { page, ctx } = await open(browser);
+    eq(await page.$$eval('.fact .k', e => e.map(x => x.textContent)), ['일정', '진행 방식', '소요 시간', '정원', '신청 마감']);
+    eq(await page.$$eval('#curriList li .c b', e => e.map(x => x.textContent)), ['우리 사무소에 맞는 초기 셋업', '고객 만족도를 높이는 맞춤형 보고서 만들기', '매월 반복되는 보고서 자동발송 설정', 'VIP 고객을 위한 특화 기능 활용법']);
+    eq(await page.textContent('#curriMeta'), '30분 · 온라인 · 4개 주제');
+    await ctx.close();
+  });
+  await t('문의 버튼 → 채널톡 주소, 새 창, 흰 버튼', async () => {
     const { page, ctx } = await open(browser);
     eq(await page.getAttribute('#contactBtn', 'href'), 'https://qe398.channel.io'); eq(await page.getAttribute('#contactBtn', 'target'), '_blank');
+    eq(await page.$eval('#contactBtn', e => getComputedStyle(e).backgroundColor), 'rgb(255, 255, 255)');
     await ctx.close();
   });
-
-  await t('일정의 「이 회차 신청」 → 신청서 회차가 그 날짜로 바뀜', async () => {
-    const { page, ctx } = await open(browser);
-    await page.click('#sessions li:nth-child(2) .pick');
-    eq(await page.inputValue('#session'), '2027-01-20'); eq(await page.textContent('#selDate'), '1월 20일 수요일'); await ctx.close();
-  });
-  await t('개인정보 동의 내용: 기본 접힘 → 「내용 보기」로 펼침', async () => {
+  await t('개인정보 동의 내용: 기본 접힘 → 「보기」로 펼침', async () => {
     const { page, ctx } = await open(browser);
     eq(await page.isVisible('#consentTable'), false);
     await page.click('#consentToggle'); eq(await page.isVisible('#consentTable'), true);
     eq((await page.textContent('#consentTable')).includes('보유 기간'), true); await ctx.close();
   });
-
-  await t('공식 로고 · 제품 화면 이미지가 실제로 뜸(깨진 이미지 없음)', async () => {
+  await t('공식 로고가 실제로 뜸(깨진 이미지 없음)', async () => {
     const { page, ctx } = await open(browser);
     await page.waitForLoadState('load');
     const imgs = await page.$$eval('img', a => a.map(i => ({ src: i.getAttribute('src'), ok: i.complete && i.naturalWidth > 0, alt: i.alt })));
-    eq(imgs.map(i => i.src), ['logo.png', 'product-visual.png']);
+    eq(imgs.map(i => i.src), ['logo.png']);
     eq(imgs.every(i => i.ok && i.alt), true, '이미지 로드·대체 글');
     await ctx.close();
   });
-
-  await t('D-day 색: 7일 넘으면 하강 파랑, 문의 버튼은 SOS 노랑', async () => {
+  await t('주요 버튼 색 #0B7A60(흰 글자 대비 확보)', async () => {
     const { page, ctx } = await open(browser);
-    eq(await page.$eval('#heroDday', e => getComputedStyle(e).color), 'rgb(36, 91, 243)');
-    eq(await page.$eval('#contactBtn', e => getComputedStyle(e).backgroundColor), 'rgb(255, 240, 39)');
-    eq(await page.$$eval('.fact .k svg', a => a.length), 4);
-    eq(await page.evaluate(() => [ddaySoon({ y: 2026, m: 11, d: 16 }, new Date('2026-12-10T03:00:00Z')), ddaySoon({ y: 2026, m: 11, d: 16 }, new Date('2026-12-01T03:00:00Z'))]), [true, false], '7일 이내만 빨강');
+    eq(await page.$eval('#submitBtn', e => getComputedStyle(e).backgroundColor), 'rgb(11, 122, 96)');
     await ctx.close();
   });
 
@@ -122,8 +127,9 @@ async function fill(page) {
   await t('정상 제출 → 전송값 확인 + 완료 화면', async () => {
     const { page, ctx, sent, errors } = await open(browser); await fill(page); await page.click('#submitBtn');
     await page.waitForSelector('#done.show');
-    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v01.05' });
-    eq(await page.textContent('#done h3'), '신청이 완료되었습니다');
+    eq(sent[0], { session: '2026-12-16', name: '홍길동', phone: '01012345678', email: 'hong@example.com', office: '길동세무회계', topic: '부가세 보고서', agree: true, website: '', pageVersion: 'v02.00' });
+    eq(await page.textContent('#done h3'), '신청이 접수되었습니다.');
+    eq(await page.textContent('#doneSummary'), '2026년 12월 16일 수요일 · 온라인 · 30분 · D-34');
     eq(await page.isVisible('#applyForm'), false);
     eq(errors, [], 'console errors');
     await page.screenshot({ path: path.join(OUT, 'done.png') });
@@ -131,7 +137,8 @@ async function fill(page) {
   });
   await t('이미 신청한 회차 → 「이미 신청된 회차입니다」', async () => {
     const { page, ctx } = await open(browser, { reply: { ok: true, duplicate: true } }); await fill(page); await page.click('#submitBtn');
-    await page.waitForSelector('#done.show'); eq(await page.textContent('#done h3'), '이미 신청된 회차입니다'); await ctx.close();
+    await page.waitForSelector('#done.show'); eq(await page.textContent('#done h3'), '이미 신청된 회차입니다.');
+    await page.click('#resetBtn'); eq(await page.isVisible('#applyForm'), true); eq(await page.inputValue('#name'), ''); await ctx.close();
   });
   await t('서버 거절 → 서버 안내문 표시, 폼 유지, 버튼 복구', async () => {
     const { page, ctx } = await open(browser, { reply: { ok: false, message: '연락처를 확인해 주세요.' } }); await fill(page); await page.click('#submitBtn');
@@ -144,6 +151,7 @@ async function fill(page) {
     const { page, ctx } = await open(browser, { viewport: { width: 375, height: 812 } });
     eq(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
     eq(await page.isVisible('.hdr-cta'), true, '모바일에서도 상단 신청 버튼 표시');
+    eq(await page.isVisible('.phone'), false, '좁은 화면에서 휴대폰 목업 숨김');
     await page.screenshot({ path: path.join(OUT, 'mobile.png'), fullPage: true });
     await ctx.close();
   });

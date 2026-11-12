@@ -3,253 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v01.05 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
-     v01.05: 노란 형광펜 강조 제거(사용자 요청)
-     v01.04: 가이드 전체 컬러 사용 — 별도 컬러(SOS 노랑·주황=채팅 상담·형광펜, 인증서 파랑·연결 보라=안내 아이콘), 수치 표현(D-day 빨강/파랑)
-     v01.03: 「Semo Design System Guide」 공식 컬러 적용 · 제품 이미지를 대시보드+모바일 보고서 합성 이미지로 교체
-     v01.02: 신청 시작 회차(openFrom) — 2026-11 회차 제외, 12월부터 접수
-     v01.01: 공식 로고(세모디자인/SEMOR_logo_Br.png) 적용 · 실제 제품 화면(대시보드, 이름 없는 영역만 잘라 씀) 밴드 추가 · 포인트 색을 로고 색 #2CBAA0 으로
-     v01.00: 디자인 전면 개편(콘셉트 「Editorial Schedule」) — 날짜를 핵심 비주얼로, 카드 반복 대신 행·열 구조, 민트는 포인트로만 -->
-<meta name="page-version" content="v01.05">
+<!-- 세모리포트 사용법 교육 세미나 신청 페이지 · v02.00 (2026-11-12) — 변경 이력은 ../PROJECT_CONTEXT.md
+     v02.00: 사용자 디자인 캔버스 「세모리포트 세미나 랜딩 v01.02」 기준으로 전면 재구성(큰 틀 변경 → 앞자리 올림)
+             — 커리큘럼 섹션·30분, 회차 카드 선택 → 신청서 반영, 다크 문의 밴드, Noto Sans KR 단일 서체, 접근성 버튼색 #0B7A60 -->
+<meta name="page-version" content="v02.00">
 <title>세모리포트 사용법 교육 세미나</title>
-<meta name="description" content="세모리포트 사용법 교육 세미나 — 매월 셋째 주 수요일 온라인 진행. 정원 제한 없이 누구나 신청할 수 있습니다.">
+<meta name="description" content="세모리포트 사용법 교육 세미나 — 매월 셋째 주 수요일 온라인 30분. 정원 제한 없이 누구나 신청할 수 있습니다.">
 <meta property="og:title" content="세모리포트 사용법 교육 세미나">
-<meta property="og:description" content="매월 셋째 주 수요일 · 온라인 · 정원 제한 없음">
+<meta property="og:description" content="매월 셋째 주 수요일 · 온라인 · 30분 · 정원 제한 없음">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
 <style>
-/* ── 디자인 토큰 — 「Semo Design System Guide」 공식 컬러(v01.03 적용) ──────────
- * 메인 3종: 버튼 #17BF98 · 영역강조 #12997A · 선택배경 #F3FFF4 (투명도 조절·배경 사용 금지)
- * 폰트: 본문·타이틀 #000000 · 설명 #8A8A8B (설명 배경 #F9F9F9) · 비활성: 영역 #EBEBEB · 폰트 #CECECE
- * 숫자·영문은 Inter, 한글은 Noto Sans KR. */
+/* ── 디자인 토큰 — 디자인 캔버스 v01.02 값 그대로 ─────────────────
+ * 주요 버튼·칩 #0B7A60(흰 글자 대비 5.3:1) · 선택 테두리 #12997A · 포인트 #17BF98 · 선택배경 #F3FFF4
+ * 본문 #000 · 설명 #5C5C5E · 보조 본문 #3A3A3C · 입력 테두리 #8A8A8B · placeholder #6E6E70 */
 :root{
-  --ink:#000000; --ink-2:#000000; --muted:#8A8A8B; --subtle:#8A8A8B;
-  --line:#EBEBEB; --line-2:#EBEBEB; --surface:#F9F9F9; --white:#FFFFFF;
-  --mint:#17BF98; --mint-600:#12997A; --mint-700:#12997A; --mint-50:#F3FFF4;
-  --btn:#17BF98; --off-bg:#EBEBEB; --off-fg:#CECECE;
-  --red:#FF5353; --red-50:#FFF5F5;  /* 오류 표시 — 가이드에 별도 오류색이 없어 「상승」 빨강을 씀(확인 필요) */
-  /* 가이드 「수치 표현」 — D-day 숫자에만 */
-  --up:#FF5353; --down:#245BF3;
-  /* 가이드 「별도 컬러」(프로모션 페이지용) — 의미가 맞는 곳에만 */
-  --sos:#FFF027; --sos-2:#FFB623; --cert:#0088FF; --link:#5D72DC;
-  --radius:14px; --radius-sm:10px;
-  --shadow:0 1px 2px rgba(0,0,0,.04), 0 12px 32px -12px rgba(0,0,0,.12);
-  --font:'Inter','Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+  --primary:#0B7A60; --primary-hover:#08654F; --point:#17BF98; --select:#12997A;
+  --select-bg:#F3FFF4; --select-line:#BFEBDD;
+  --ink:#000000; --body:#3A3A3C; --sub:#5C5C5E; --input:#8A8A8B; --ph:#6E6E70;
+  --line:#EBEBEB; --line-2:#F2F2F2; --off:#CECECE; --section:#F7F8F7;
+  --dark:#0F1412; --dark-line:#262C2A; --dark-sub:#B5BAB8; --dark-foot:#8E9492;
+  --red:#C93A3A;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--font);color:var(--ink-2);background:var(--white);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;word-break:keep-all;letter-spacing:-.005em}
-a{color:inherit}
+body{font-family:'Noto Sans KR','Apple SD Gothic Neo',sans-serif;font-variant-numeric:tabular-nums;color:var(--ink);background:#FFFFFF;-webkit-font-smoothing:antialiased;word-break:keep-all;line-height:1.6}
+a{color:var(--primary)}a:hover{color:var(--primary-hover)}
 button{font-family:inherit}
-.num{font-feature-settings:'tnum' 1;font-variant-numeric:tabular-nums}
-.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
-:focus-visible{outline:2px solid var(--mint-600);outline-offset:2px;border-radius:4px}
+button:focus-visible,a:focus-visible,input[type=checkbox]:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
-/* ── 헤더 ── */
-.hdr{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.6) blur(10px);-webkit-backdrop-filter:saturate(1.6) blur(10px);border-bottom:1px solid var(--line-2)}
-.hdr .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+/* 버튼 */
+.btn-p{background:var(--primary);color:#FFFFFF;text-decoration:none;font-weight:700;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:background .15s cubic-bezier(.4,0,.2,1)}
+.btn-p:hover{background:var(--primary-hover);color:#FFFFFF}
+.btn-p:disabled{background:var(--line);color:var(--off);cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:var(--ink);text-decoration:none;font-weight:600;border:1px solid var(--off);cursor:pointer;display:inline-flex;align-items:center;transition:border-color .15s}
+.btn-o:hover{border-color:var(--ink);color:var(--ink)}
+
+/* 헤더 */
+.hdr{border-bottom:1px solid var(--line);background:#FFFFFF;position:sticky;top:0;z-index:20}
+.hdr .wrap{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.brand .mark{width:28px;height:28px;border-radius:8px;background:var(--mint);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700}
-.brand .name{font-size:17px;font-weight:700;letter-spacing:-.02em}
-.brand .div{width:1px;height:14px;background:var(--line)}
-.brand .sub{font-size:14px;font-weight:500;color:var(--muted)}
-.logo-img{height:24px;width:auto;display:block}
-#brandText{display:flex;align-items:center;gap:10px}
-.hdr-nav{display:flex;align-items:center;gap:22px}
-.hdr-link{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none}
-.hdr-link:hover{color:var(--ink)}
-.hdr-cta{display:inline-flex;align-items:center;height:38px;padding:0 16px;border-radius:10px;background:var(--btn);color:#fff;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
-.hdr-cta:hover{background:var(--mint-700)}
+.brand img{height:24px;width:auto;display:block}
+.brand .txt{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.pill{font-size:12px;font-weight:600;color:var(--sub);padding:3px 8px;border:1px solid var(--line);border-radius:999px}
+.nav{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500}
+.nav-a{color:#3A3A3C;text-decoration:none}
+.nav-a:hover{color:var(--ink)}
+.nav .btn-p{font-size:14px;height:40px;padding:0 18px;border-radius:8px}
 
-/* ── 버튼 ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-weight:600;text-decoration:none;border-radius:12px;transition:background-color .15s,box-shadow .15s,transform .05s}
-.btn:active{transform:translateY(1px)}
-.btn-primary{height:52px;padding:0 26px;font-size:16px;font-weight:700;background:var(--btn);color:#fff}
-.btn-primary:hover{background:var(--mint-700)}
-.btn-primary:disabled{background:var(--off-bg);color:var(--off-fg);cursor:not-allowed;transform:none}
-.btn-ghost{height:52px;padding:0 20px;font-size:16px;color:var(--ink);background:transparent;border:1px solid var(--line)}
-.btn-ghost:hover{border-color:var(--off-fg);background:var(--surface)}
-.btn-sos{height:52px;padding:0 22px;font-size:16px;font-weight:700;color:#000;background:var(--sos);border:1px solid var(--sos-2)}
-.btn-sos:hover{background:var(--sos-2)}
-.arrow{display:inline-block;width:16px;height:16px}
+/* 히어로 */
+.hero{padding:88px 24px 72px;display:flex;flex-wrap:wrap;gap:56px;align-items:center}
+.hero-l{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:28px}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;color:var(--primary)}
+.eyebrow i{width:8px;height:8px;border-radius:999px;background:var(--point)}
+.hero h1{font-size:clamp(40px,5.2vw,64px);line-height:1.12;font-weight:800;letter-spacing:-.035em}
+.lead{font-size:19px;line-height:1.6;color:var(--sub);font-weight:500}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.actions .btn-p,.actions .btn-o{font-size:16px;height:54px;padding:0 26px;border-radius:10px}
+.ticket{text-decoration:none;color:var(--ink);margin-top:8px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:18px 22px;border:1px solid var(--line);border-radius:14px;max-width:460px;background:#FFFFFF}
+.ticket:hover{color:var(--ink);border-color:var(--select)}
+.ticket .t1{display:flex;flex-direction:column;gap:2px}
+.ticket .t1 small{font-size:12px;font-weight:600;color:var(--sub)}
+.ticket .t1 b{font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.ticket .t2{display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line);padding-left:20px}
+.ticket .t2 b{font-size:15px;font-weight:700}
+.ticket .t2 span{font-size:13px;color:var(--sub)}
+.badge{font-size:13px;font-weight:700;color:var(--primary);background:var(--select-bg);border:1px solid var(--select-line);padding:6px 10px;border-radius:999px;white-space:nowrap}
 
-/* ── 히어로 ── */
-.hero{padding:88px 0 72px}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:72px;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--mint-700)}
-.eyebrow::before{content:'';width:20px;height:2px;background:var(--mint)}
-.hero h1{margin-top:20px;font-size:54px;line-height:1.16;font-weight:700;color:var(--ink);letter-spacing:-.035em}
-.hero .lead{margin-top:22px;max-width:30em;font-size:18px;line-height:1.7;color:var(--muted)}
-.hero-actions{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap}
+/* 제품 화면(디자인 캔버스의 HTML 목업) */
+.visual{flex:1.15 1 480px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.stage{position:relative;background:var(--select-bg);border-radius:24px;padding:36px;min-height:480px;overflow:hidden}
+.dash{background:#FFFFFF;border-radius:14px;box-shadow:0 1px 3px rgba(16,24,40,.06),0 12px 32px rgba(18,153,122,.10);padding:22px 24px;max-width:520px;display:flex;flex-direction:column;gap:18px}
+.dash-top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;font-weight:600;color:var(--sub)}
+.dash-top em{font-style:normal;font-size:11px;border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.dash h3{font-size:16px;font-weight:700}
+.dash p{font-size:13px;color:var(--body)}
+.dash p b{color:var(--primary)}
+.bars{height:132px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;align-items:end;border-bottom:1px solid var(--line);padding:0 4px}
+.bars div{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:100%}
+.bars span{display:block;width:12px;border-radius:3px 3px 0 0}
+.bars .s{background:#E3E3E3}.bars .r{background:var(--point)}
+.months{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:0 4px;font-size:11px;color:var(--sub);text-align:center}
+.legend{display:flex;gap:16px;font-size:11px;color:var(--sub)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:2px}
+.todo{display:flex;flex-direction:column;border-top:1px solid var(--line);padding-top:14px}
+.todo h4{font-size:13px;font-weight:700;margin-bottom:6px}
+.todo div{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;font-size:12px;padding:8px 0}
+.todo div + div{border-top:1px solid var(--line-2)}
+.phone{position:absolute;right:32px;bottom:-36px;width:214px;height:400px;border-radius:34px;background:#111312;padding:8px;box-shadow:0 24px 48px rgba(16,24,40,.22)}
+.phone .scr{background:#FFFFFF;border-radius:27px;height:100%;padding:26px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.phone h5{font-size:13px;font-weight:800;letter-spacing:-.02em}
+.phone h5 span{color:var(--sub);font-weight:600}
+.kv{display:flex;flex-direction:column;gap:6px;font-size:10px}
+.kv div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line-2);padding-bottom:6px}
+.kv div:last-child{border:0;padding:0}
+.kv span{color:var(--sub)}.kv b{font-weight:600}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));background:var(--line-2);border-radius:8px;padding:3px;font-size:10px;font-weight:700;text-align:center}
+.seg span{padding:5px 0;color:var(--sub)}
+.seg span:first-child{background:#000;color:#FFF;border-radius:6px}
+.est{background:var(--select-bg);border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:6px}
+.est small{font-size:10px;color:var(--primary);font-weight:700}
+.est b{font-size:14px;font-weight:800;line-height:1.4;letter-spacing:-.02em}
+.est b span{color:var(--primary)}
+.phone .foot{font-size:10px;color:var(--sub);line-height:1.5}
+.visual figcaption{font-size:12px;color:var(--sub)}
 
-.facts{margin-top:56px;display:grid;grid-auto-flow:column;grid-auto-columns:max-content;border-top:1px solid var(--line)}
-.fact{padding:18px 28px 0 0}
-.fact + .fact{padding-left:28px;border-left:1px solid var(--line-2)}
-.fact .v{white-space:nowrap}
-.fact .k{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--subtle)}
-.fact .k svg{flex-shrink:0}
-.fact .v{margin-top:4px;font-size:15px;font-weight:600;color:var(--ink)}
+/* 핵심 정보 */
+.facts-sec{padding:0 24px 96px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{background:#FFFFFF;padding:28px 24px;display:flex;flex-direction:column;gap:8px}
+.fact:first-child{padding-left:0}
+.fact .k{font-size:13px;font-weight:600;color:var(--sub)}
+.fact .v{font-size:20px;font-weight:700;letter-spacing:-.02em}
 
-/* 다음 회차 패널 — 날짜가 곧 비주얼 */
-.next{position:relative;background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:32px 32px 28px;overflow:hidden}
-.next::before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--mint)}
-.next-top{display:flex;align-items:center;justify-content:space-between}
-.next-lbl{font-size:14px;font-weight:600;color:var(--muted)}
-.dday{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;background:#fff;border:1px solid var(--down);color:var(--down);font-size:13px;font-weight:700;letter-spacing:.01em}
-.dday.soon{border-color:var(--up);color:var(--up)}
-.dd{font-weight:700;color:var(--down)}
-.dd.soon{color:var(--up)}
-.next-date{margin-top:20px;font-size:104px;line-height:.95;font-weight:700;color:var(--ink);letter-spacing:-.05em}
-.next-date .dot{color:var(--mint)}
-.next-day{margin-top:12px;font-size:20px;font-weight:600;color:var(--ink)}
-.next-meta{margin-top:2px;font-size:15px;color:var(--muted)}
-.next-foot{margin-top:28px;padding-top:20px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.next-foot span{font-size:14px;color:var(--muted)}
-.next-foot a{font-size:14px;font-weight:600;color:var(--mint-700);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
-.next-foot a:hover{text-decoration:underline}
+/* 섹션 머리 */
+.kicker{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--primary)}
+.h2{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1.25}
 
-/* ── 제품 화면 밴드 — 실제 세모리포트 화면 ── */
-.product{padding:0 0 8px;background:linear-gradient(var(--white) 0 50%,var(--surface) 50% 100%)}
-.frame{border:1px solid var(--line);border-radius:18px;background:var(--white);box-shadow:var(--shadow);overflow:hidden}
-.frame-bar{height:40px;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid var(--line-2);background:var(--surface)}
-.frame-bar i{width:10px;height:10px;border-radius:50%;background:var(--off-bg)}
-.frame-bar span{margin-left:10px;font-size:12px;color:var(--subtle)}
-.frame img{display:block;width:100%;height:auto}
-.visual{display:block;width:100%;height:auto;border-radius:20px;border:1px solid var(--line)}
-.caption{padding:14px 2px 64px;font-size:13px;color:var(--subtle)}
+/* 커리큘럼 */
+.curri{padding:0 24px 120px;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start}
+.curri-l{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.curri-l p{font-size:17px;line-height:1.75;color:var(--body)}
+.curri-l .meta{margin-top:6px;font-size:14px;font-weight:600;color:var(--sub)}
+.curri ol{flex:1.5 1 520px;min-width:0;list-style:none;border-top:2px solid var(--ink)}
+.curri li{display:grid;grid-template-columns:64px 1fr;gap:16px;padding:28px 0;border-bottom:1px solid var(--line)}
+.curri li .n{font-size:16px;font-weight:700;color:var(--primary)}
+.curri li .c{display:flex;flex-direction:column;gap:6px}
+.curri li .c span{font-size:14px;font-weight:600;color:var(--sub)}
+.curri li .c b{font-size:21px;font-weight:700;letter-spacing:-.02em}
 
-/* ── 섹션 공통: 좌측 제목 열 + 우측 콘텐츠 열 ── */
-.sec{padding:96px 0}
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:64px}
-.sec-kicker{font-size:13px;font-weight:600;color:var(--mint-700);letter-spacing:.02em}
-.sec-title{margin-top:10px;font-size:32px;line-height:1.3;font-weight:700;color:var(--ink);letter-spacing:-.03em}
-.sec-desc{margin-top:14px;font-size:16px;color:var(--muted);line-height:1.7}
+/* 일정 + 신청 */
+.apply-sec{background:var(--section);border-top:1px solid var(--line)}
+.apply-in{padding:104px 24px 112px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start}
+.sched{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:32px}
+.sched-h{display:flex;flex-direction:column;gap:14px}
+.sched-h p{font-size:16px;line-height:1.7;color:var(--sub)}
+.sessions{display:flex;flex-direction:column;gap:12px}
+.sess{width:100%;text-align:left;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:22px 24px;border-radius:14px;color:var(--ink);background:#FFFFFF;border:1.5px solid var(--line);transition:border-color .15s,background .15s}
+.sess:hover{border-color:var(--select)}
+.sess[aria-checked="true"]{background:var(--select-bg);border-color:var(--select)}
+.sess .d{display:flex;flex-direction:column;gap:2px;min-width:96px}
+.sess .d b{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.sess[aria-checked="true"] .d b{color:var(--primary)}
+.sess .d span{font-size:12px;color:var(--sub)}
+.sess .i{display:flex;flex-direction:column;gap:6px;min-width:0}
+.sess .i .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:16px;font-weight:700}
+.sess .i .t em{font-style:normal;font-size:11px;font-weight:700;color:#FFFFFF;background:var(--primary);padding:3px 8px;border-radius:999px}
+.sess .i .m{font-size:13px;color:var(--sub)}
+.sess .i .m b{color:var(--primary)}
+.radio{width:22px;height:22px;border-radius:999px;flex-shrink:0;background:#FFFFFF;border:1.5px solid var(--input)}
+.sess[aria-checked="true"] .radio{border:7px solid var(--primary)}
+.sched .help{font-size:14px;color:var(--sub);line-height:1.6}
+.sched .help a{font-weight:700}
 
-/* ── 일정 — 카드 대신 타임라인 행 ── */
-.sessions{list-style:none;border-top:1px solid var(--ink)}
-.session{display:grid;grid-template-columns:132px minmax(0,1fr) auto;align-items:center;gap:24px;padding:26px 4px;border-bottom:1px solid var(--line)}
-.session .when{font-size:34px;font-weight:700;color:var(--ink);letter-spacing:-.04em;line-height:1}
-.session .when small{display:block;margin-top:8px;font-size:13px;font-weight:500;color:var(--subtle);letter-spacing:0}
-.session .info .date{font-size:17px;font-weight:600;color:var(--ink)}
-.session .info .meta{margin-top:2px;font-size:14px;color:var(--muted)}
-.session .tag{display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:13px;font-weight:600;color:var(--mint-700);vertical-align:1px}
-.session .tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--mint)}
-.session.is-next .when{color:var(--mint-700)}
-.pick{height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line);background:var(--white);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,background-color .15s}
-.pick:hover{border-color:var(--mint-600);color:var(--mint-700);background:var(--mint-50)}
-
-/* ── 신청 ── */
-.apply{background:var(--surface);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
-.apply-aside{position:sticky;top:104px;align-self:start}
-.selected{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
-.selected .k{font-size:13px;font-weight:500;color:var(--subtle)}
-.selected .v{margin-top:6px;font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1.2}
-.selected .s{margin-top:4px;font-size:14px;color:var(--muted)}
-.aside-help{margin-top:28px;font-size:14px;color:var(--muted)}
-.aside-help a{color:var(--mint-700);font-weight:600;text-decoration:none}
-.aside-help a:hover{text-decoration:underline}
-
-.form-card{background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:40px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
-.field{margin-bottom:22px;min-width:0}
-.field.full{grid-column:1 / -1}
-.field label.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:var(--ink)}
-.req{color:var(--mint-700);margin-left:3px}
-.opt{color:var(--subtle);font-weight:400;font-size:13px;margin-left:6px}
-.field input[type=text],.field input[type=tel],.field input[type=email],.field select,.field textarea{width:100%;height:50px;font-family:inherit;font-size:16px;color:var(--ink);background:var(--white);border:1px solid var(--line);border-radius:var(--radius-sm);padding:0 14px;outline:none;transition:border-color .15s,box-shadow .15s}
-.field select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%238A8A8B' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
-.field textarea{height:auto;min-height:112px;padding:13px 14px;line-height:1.6;resize:vertical}
-.field input::placeholder,.field textarea::placeholder{color:var(--off-fg)}
-.field input:hover,.field select:hover,.field textarea:hover{border-color:var(--off-fg)}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--mint-700);box-shadow:0 0 0 1px var(--mint-700)}
-.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:var(--red);box-shadow:none}
-.err{display:none;margin-top:6px;font-size:13px;color:var(--red)}
-.field.has-error .err{display:block}
-
-.consent{border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--white)}
-.consent-row{display:flex;align-items:center;gap:12px;padding:14px 16px}
-.consent-row input{width:20px;height:20px;accent-color:var(--mint-700);flex-shrink:0;cursor:pointer}
-.consent-row .txt{flex:1;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
-.consent-row .txt em{font-style:normal;color:var(--mint-700);margin-right:4px}
-.consent-toggle{background:none;border:0;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;padding:6px 4px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
-.consent-toggle:hover{color:var(--ink)}
-.consent-toggle svg{transition:transform .2s}
-.consent.open .consent-toggle svg{transform:rotate(180deg)}
-.consent-body{display:none;padding:0 16px 16px}
+.panel{flex:1.5 1 520px;min-width:0;background:#FFFFFF;border:1px solid var(--line);border-radius:20px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 16px 40px rgba(16,24,40,.06)}
+form.apply{padding:44px 44px 40px;display:flex;flex-direction:column;gap:28px}
+.form-h{display:flex;flex-direction:column;gap:14px}
+.form-h .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.form-h h2{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.form-h .row span{font-size:13px;color:var(--sub)}
+.req{color:var(--primary);font-weight:700}
+.sel{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--select-bg);border:1px solid var(--select-line);border-radius:14px;padding:18px 22px}
+.sel>b{font-size:30px;font-weight:700;letter-spacing:-.03em;color:var(--primary)}
+.sel>div{display:flex;flex-direction:column;gap:3px;border-left:1px solid var(--select-line);padding-left:18px}
+.sel small{font-size:12px;font-weight:600;color:var(--body)}
+.sel strong{font-size:17px;font-weight:700}
+.sel span{font-size:13px;color:var(--body)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:20px}
+.field{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;min-width:0}
+.field .opt{font-weight:500;color:var(--sub)}
+.f{height:50px;border:1px solid var(--input);border-radius:8px;padding:0 16px;font-size:15px;font-family:inherit;color:var(--ink);background:#FFFFFF;transition:border-color .15s,box-shadow .15s;width:100%}
+textarea.f{height:auto;padding:14px 16px;line-height:1.6;resize:vertical}
+.f::placeholder{color:var(--ph)}
+.f:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,122,96,.2)}
+.field.has-error .f{border-color:var(--red)}
+.err{display:none;font-size:13px;font-weight:600;color:var(--red)}
+.field.has-error .err,.consent-wrap.has-error .err{display:block}
+.consent{border:1px solid var(--line);border-radius:10px}
+.consent-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 8px 4px 16px;min-height:52px}
+.consent-row label{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;cursor:pointer}
+.consent-row input{width:20px;height:20px;accent-color:var(--select);margin:0}
+.consent-row button{background:transparent;border:0;font-size:13px;color:var(--sub);cursor:pointer;padding:12px 10px;display:flex;align-items:center;gap:4px}
+.consent-row button svg{transition:transform .2s}
+.consent.open .consent-row button svg{transform:rotate(180deg)}
+.consent-body{display:none;border-top:1px solid var(--line);padding:14px 16px;font-size:13px;line-height:1.7;color:var(--body);background:#FAFAFA;border-radius:0 0 10px 10px}
 .consent.open .consent-body{display:block}
-.consent table{width:100%;border-collapse:collapse;font-size:13px}
-.consent th,.consent td{padding:10px 0;text-align:left;vertical-align:top;border-top:1px solid var(--line-2)}
-.consent th{width:84px;font-weight:600;color:var(--ink)}
-.consent td{color:var(--muted)}
-.consent .note{margin-top:10px;font-size:12px;color:var(--subtle)}
+.consent-body table{width:100%;border-collapse:collapse}
+.consent-body th,.consent-body td{text-align:left;vertical-align:top;padding:6px 0}
+.consent-body th{width:84px;font-weight:600;color:var(--ink)}
+.consent-body .note{margin-top:8px;font-size:12px;color:var(--sub)}
+.consent-wrap{display:flex;flex-direction:column;gap:10px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.submit-row{margin-top:28px}
-.submit-row .btn{width:100%}
-.form-msg{margin-top:14px;padding:12px 14px;border-radius:var(--radius-sm);font-size:14px;display:none}
+.submit{display:flex;flex-direction:column;gap:10px}
+.submit .btn-p{height:58px;border-radius:10px;font-size:17px;width:100%}
+.form-msg{display:none;font-size:13px;font-weight:600;padding:12px 14px;border-radius:8px}
 .form-msg.show{display:block}
-.form-msg.error{background:var(--red-50);color:var(--red)}
-.form-msg.info{background:var(--mint-50);color:var(--mint-700)}
+.form-msg.error{color:var(--red);background:#FDF3F3}
+.form-msg.info{color:var(--primary);background:var(--select-bg)}
 
-/* 완료 */
-.done{display:none;background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:48px 40px}
-.done.show{display:block}
-.done .check{width:52px;height:52px;border-radius:50%;background:var(--mint-50);display:grid;place-items:center}
-.done h3{margin-top:22px;font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.03em}
-.done p{margin-top:8px;color:var(--muted)}
-.done .sum{margin-top:28px;border-top:1px solid var(--ink)}
-.done .sum div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
-.done .sum b{font-weight:500;color:var(--subtle)}
-.done .sum span{color:var(--ink);font-weight:600;overflow-wrap:anywhere}
+.done{display:none;padding:72px 44px;flex-direction:column;align-items:flex-start;gap:20px}
+.done.show{display:flex}
+.done .ck{width:52px;height:52px;border-radius:999px;background:var(--select-bg);border:1px solid var(--select-line);display:grid;place-items:center;color:var(--primary)}
+.done h3{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.done p{font-size:16px;color:var(--body);line-height:1.6}
+.done .btn-o{height:48px;padding:0 20px;border-radius:10px;font-size:15px}
 
-/* ── 문의 밴드 ── */
-.contact{padding:72px 0}
-.contact .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px}
-.contact h2{font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.03em}
-.contact p{margin-top:6px;color:var(--muted)}
-footer{border-top:1px solid var(--line-2);padding:28px 0;font-size:13px;color:var(--subtle)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px}
+/* 문의 · 푸터 */
+.contact{background:var(--dark)}
+.contact .wrap{padding:72px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
+.contact h2{font-size:30px;font-weight:800;letter-spacing:-.03em;color:#FFFFFF}
+.contact p{margin-top:10px;font-size:16px;color:var(--dark-sub)}
+.btn-w{background:#FFFFFF;color:var(--ink);text-decoration:none;font-weight:700;font-size:16px;height:54px;padding:0 24px;border-radius:10px;display:inline-flex;align-items:center;gap:10px}
+.btn-w:hover{background:var(--select-bg);color:var(--ink)}
+footer{background:var(--dark);border-top:1px solid var(--dark-line)}
+footer .wrap{padding:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--dark-foot)}
 
-/* ── 반응형 ── */
-@media (max-width:960px){
-  .hero-grid{grid-template-columns:1fr;gap:48px}
-  .split{grid-template-columns:1fr;gap:36px}
-  .apply-aside{position:static}
-  .selected{margin-top:24px}
-}
-@media (max-width:640px){
+@media (max-width:720px){
+  .phone{display:none}
+  .nav .nav-a{display:none}
+  .pill{display:none}
   .wrap{padding:0 20px}
-  .hdr .wrap{height:58px}
-  .brand .div,.brand .sub,.hdr-link{display:none}
-  .hdr-cta{height:34px;padding:0 12px;font-size:13px}
-  .hero{padding:48px 0 48px}
-  .hero h1{font-size:34px;line-height:1.24}
-  .hero .lead{font-size:16px}
-  .hero-actions{display:grid;grid-template-columns:1fr;gap:10px}
-  .hero-actions .btn{width:100%}
-  .facts{margin-top:40px;grid-auto-flow:row;grid-template-columns:1fr 1fr}
-  .fact .v{white-space:normal}
-  .fact{padding:16px 12px 16px 0}
-  .fact + .fact{padding-left:0;border-left:0}
-  .fact:nth-child(even){padding-left:16px;border-left:1px solid var(--line-2)}
-  .fact:nth-child(n+3){border-top:1px solid var(--line-2)}
-  .next{padding:26px 22px 22px;border-radius:16px}
-  .next-date{font-size:76px}
-  .frame-bar{height:32px}
-  .caption{padding-bottom:40px}
-  .sec{padding:64px 0}
-  .sec-title{font-size:26px}
-  .session{grid-template-columns:88px minmax(0,1fr);gap:4px 16px;padding:22px 0}
-  .session .when{font-size:26px}
-  .session .pick{grid-column:2;justify-self:start;margin-top:10px}
-  .session .tag{margin-left:8px}
-  .form-card{padding:24px 20px;border-radius:16px}
-  .consent-row .txt{font-size:13px}
-  .form-grid{grid-template-columns:1fr}
-  .done{padding:36px 22px}
-  .contact .wrap{flex-direction:column;align-items:flex-start}
-  .contact .btn{width:100%}
-  footer .wrap{flex-direction:column;gap:4px}
+  .hero{padding:48px 20px 56px;gap:40px}
+  .facts-sec{padding:0 20px 72px}
+  .curri{padding-left:20px;padding-right:20px}
+  .fact,.fact:first-child{padding:20px 0}
+  .curri{padding-bottom:80px}
+  .apply-in{padding:72px 20px 80px}
+  .h2{font-size:28px}
+  .stage{padding:20px;min-height:0}
+  form.apply{padding:28px 20px}
+  .done{padding:48px 20px}
+  .ticket{grid-template-columns:auto 1fr;}
+  .ticket .badge{grid-column:1 / -1;justify-self:start}
+  .sess{gap:14px;padding:18px}
+  .sess .d{min-width:72px}
+  .sess .d b{font-size:24px}
+  .sel{grid-template-columns:1fr}
+  .sel>div{border-left:0;padding-left:0}
+  .contact .wrap{padding:56px 20px}
+  .btn-w{width:100%;justify-content:center}
 }
 </style>
 </head>
@@ -257,148 +252,160 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
 
 <header class="hdr">
   <div class="wrap">
-    <a class="brand" href="#top" id="brand" aria-label="세모리포트 세미나"><span id="brandText"><span class="mark" aria-hidden="true">세</span><span class="name">세모리포트</span></span><span class="div" aria-hidden="true"></span><span class="sub">Seminar</span></a>
-    <nav class="hdr-nav" aria-label="바로가기">
-      <a class="hdr-link" href="#schedule">일정</a>
-      <a class="hdr-link" href="#contact">문의</a>
-      <a class="hdr-cta" href="#apply">신청하기</a>
+    <a class="brand" href="#top" id="brand" aria-label="세모리포트 세미나"><span id="brandText"><span class="txt">세모리포트</span></span><span class="pill">Seminar</span></a>
+    <nav class="nav" aria-label="바로가기">
+      <a class="nav-a" href="#curriculum">커리큘럼</a>
+      <a class="nav-a" href="#schedule">일정</a>
+      <a class="nav-a" href="#contact">문의</a>
+      <a class="btn-p hdr-cta" href="#apply">신청하기</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">매월 셋째 주 수요일 · 온라인</span>
-        <h1>세모리포트 사용법<br>교육 세미나</h1>
-        <p class="lead">정원 제한 없이, 원하는 회차를 골라 신청하세요.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#apply">세미나 신청하기
-            <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a class="btn btn-ghost" href="#schedule">일정 보기</a>
-        </div>
-        <div class="facts" id="facts"></div>
+<main>
+  <section class="wrap hero" id="top">
+    <div class="hero-l">
+      <div class="eyebrow"><i aria-hidden="true"></i><span id="eyebrow"></span></div>
+      <h1>세모리포트 사용법<br>교육 세미나</h1>
+      <p class="lead">정원 제한 없이, 원하는 회차를 골라 신청하세요.</p>
+      <div class="actions">
+        <a class="btn-p" href="#apply">세미나 신청하기<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn-o" href="#schedule">일정 보기</a>
       </div>
-
-      <aside class="next" aria-label="다음 세미나">
-        <div class="next-top">
-          <span class="next-lbl">다음 세미나</span>
-          <span class="dday num" id="heroDday"></span>
-        </div>
-        <div class="next-date num" id="heroNextDate">—</div>
-        <div class="next-day" id="heroNextDay"></div>
-        <div class="next-meta" id="heroNextMeta"></div>
-        <div class="next-foot">
-          <span>정원 제한 없음</span>
-          <a href="#apply">이 회차 신청
-            <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-      </aside>
+      <a class="ticket" href="#apply" id="ticket">
+        <span class="t1"><small>다음 세미나</small><b id="heroNextDate">—</b></span>
+        <span class="t2"><b id="heroNextDay"></b><span id="heroNextMeta"></span></span>
+        <span class="badge" id="heroDday"></span>
+      </a>
     </div>
-  </section>
 
-  <section class="product" aria-label="세모리포트 화면">
-    <div class="wrap">
-      <figure>
-        <img class="visual" src="product-visual.png" alt="세모리포트 대시보드와 모바일 사업분석 보고서 화면, 매월 셋째 주 수요일·온라인 진행·정원 제한 없음 안내" width="1120" height="600" loading="lazy">
-        <figcaption class="caption">세모리포트 대시보드 · 모바일 보고서 화면 · 테스트 계정·샘플 사업장의 예시 데이터</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="sec" id="schedule">
-    <div class="wrap split">
-      <div>
-        <div class="sec-kicker">SCHEDULE</div>
-        <h2 class="sec-title">다가오는 일정</h2>
-        <p class="sec-desc">매월 셋째 주 수요일에 열립니다.<br>원하는 회차를 골라 신청하세요.</p>
-      </div>
-      <ul class="sessions" id="sessions"></ul>
-    </div>
-  </section>
-
-  <section class="sec apply" id="apply">
-    <div class="wrap split">
-      <div class="apply-aside">
-        <div class="sec-kicker">APPLY</div>
-        <h2 class="sec-title">세미나 신청</h2>
-        <p class="sec-desc"><span class="req" style="margin:0">*</span> 표시는 필수 항목입니다.</p>
-        <div class="selected" aria-live="polite">
-          <div class="k">선택한 회차</div>
-          <div class="v num" id="selDate">—</div>
-          <div class="s" id="selMeta"></div>
-        </div>
-        <p class="aside-help">신청 관련 문의는 <a href="#contact">채팅 상담</a>으로 남겨 주세요.</p>
-      </div>
-
-      <div>
-        <form class="form-card" id="applyForm" novalidate>
-          <div class="form-grid">
-            <div class="field full">
-              <label class="lbl" for="session">참여 회차<span class="req">*</span></label>
-              <select id="session" name="session" required></select>
-              <div class="err">참여할 회차를 선택해 주세요.</div>
-            </div>
-            <div class="field">
-              <label class="lbl" for="name">이름<span class="req">*</span></label>
-              <input type="text" id="name" name="name" autocomplete="name" maxlength="30" placeholder="홍길동" required>
-              <div class="err">이름을 입력해 주세요.</div>
-            </div>
-            <div class="field">
-              <label class="lbl" for="phone">연락처<span class="req">*</span></label>
-              <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" required>
-              <div class="err">연락처를 정확히 입력해 주세요.</div>
-            </div>
-            <div class="field">
-              <label class="lbl" for="email">이메일<span class="req">*</span></label>
-              <input type="email" id="email" name="email" autocomplete="email" maxlength="100" placeholder="name@example.com" required>
-              <div class="err">이메일 주소를 정확히 입력해 주세요.</div>
-            </div>
-            <div class="field">
-              <label class="lbl" for="office">사무소명<span class="req">*</span></label>
-              <input type="text" id="office" name="office" autocomplete="organization" maxlength="60" placeholder="사무소명" required>
-              <div class="err">사무소명을 입력해 주세요.</div>
-            </div>
-            <div class="field full">
-              <label class="lbl" for="topic">듣고 싶은 내용<span class="opt">선택</span></label>
-              <textarea id="topic" name="topic" maxlength="1000" placeholder="궁금한 기능이나 다뤄 줬으면 하는 내용을 적어 주세요"></textarea>
-            </div>
+    <figure class="visual">
+      <div class="stage">
+        <div class="dash" aria-hidden="true">
+          <div class="dash-top"><span>세모리포트 · 대시보드</span><em>2026 상반기</em></div>
+          <div><h3>보고서 발송 현황</h3><p>2월 발송이 가장 많았고, 평균 열람률은 <b>36%</b>입니다.</p></div>
+          <div>
+            <div class="bars" id="bars"></div>
+            <div class="months" id="barMonths"></div>
+            <div class="legend" style="margin-top:10px"><span><i style="background:#CECECE"></i>발송</span><span><i style="background:#17BF98"></i>열람</span></div>
           </div>
+          <div class="todo">
+            <h4>이달의 할 일</h4>
+            <div><span style="font-weight:700;color:#C93A3A">즉시</span><span style="font-weight:600">전년도 자료수집</span><span style="font-weight:700;color:#C93A3A">5건</span></div>
+            <div><span style="color:#5C5C5E">18일</span><span style="font-weight:600">데이터 검증 실행</span><span style="color:#0B7A60;font-weight:600">8일 남음</span></div>
+            <div><span style="color:#5C5C5E">22일</span><span style="font-weight:600">보고서 자동 발송</span><span style="color:#5C5C5E">예정</span></div>
+          </div>
+        </div>
+        <div class="phone" aria-hidden="true">
+          <div class="scr">
+            <h5>사업분석 보고서 <span>(샘플)</span></h5>
+            <div class="kv">
+              <div><span>사업장명</span><b>샘플 사업장</b></div>
+              <div><span>과세유형</span><b>일반과세자</b></div>
+              <div><span>분석기간</span><b>01.01 – 06.30</b></div>
+            </div>
+            <div class="seg"><span>손익</span><span>상권</span></div>
+            <div class="est"><small>지난해와 비교하기</small><b>06월말 기준 누적손익은<br><span>5,295만원</span>으로 추정돼요.</b></div>
+            <span class="foot">올해 손익 예상은 1억 590만원이에요.</span>
+          </div>
+        </div>
+      </div>
+      <figcaption>세모리포트 대시보드 · 모바일 보고서 화면</figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap facts-sec" aria-label="세미나 안내">
+    <div class="facts" id="facts"></div>
+  </section>
+
+  <section class="wrap curri" id="curriculum">
+    <div class="curri-l">
+      <span class="kicker">01 · CURRICULUM</span>
+      <h2 class="h2">핵심 교육 커리큘럼</h2>
+      <p id="curriIntro"></p>
+      <span class="meta" id="curriMeta"></span>
+    </div>
+    <ol id="curriList"></ol>
+  </section>
+
+  <section class="apply-sec" id="apply">
+    <div class="wrap apply-in">
+      <div class="sched" id="schedule">
+        <div class="sched-h">
+          <span class="kicker">02 · SCHEDULE</span>
+          <h2 class="h2">다가오는 일정</h2>
+          <p>매월 셋째 주 수요일에 열립니다.<br>원하는 회차를 골라 신청하세요.</p>
+        </div>
+        <div class="sessions" id="sessions" role="radiogroup" aria-label="참여 회차 선택"></div>
+        <p class="help">신청 관련 문의는 <a href="#contact">채팅 상담</a>으로 남겨 주세요.</p>
+      </div>
+
+      <div class="panel">
+        <form class="apply" id="applyForm" novalidate aria-label="세미나 신청서">
+          <div class="form-h">
+            <span class="kicker">03 · APPLY</span>
+            <div class="row"><h2>세미나 신청</h2><span><span class="req">*</span> 표시는 필수 항목입니다.</span></div>
+          </div>
+
+          <div class="field" style="gap:0">
+            <input type="hidden" id="session" name="session">
+            <div class="sel" aria-live="polite">
+              <b id="selDateBig">—</b>
+              <div>
+                <small>참여 회차 <span class="req">*</span></small>
+                <strong id="selDate">—</strong>
+                <span id="selMeta"></span>
+              </div>
+            </div>
+            <div class="err" style="margin-top:8px">참여할 회차를 선택해 주세요.</div>
+          </div>
+
+          <div class="grid2">
+            <label class="field"><span>이름 <span class="req">*</span></span>
+              <input class="f" type="text" id="name" name="name" autocomplete="name" maxlength="30" placeholder="홍길동" required>
+              <span class="err">이름을 입력해 주세요.</span></label>
+            <label class="field"><span>연락처 <span class="req">*</span></span>
+              <input class="f" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" required>
+              <span class="err">연락처를 정확히 입력해 주세요.</span></label>
+            <label class="field"><span>이메일 <span class="req">*</span></span>
+              <input class="f" type="email" id="email" name="email" autocomplete="email" maxlength="100" placeholder="name@example.com" required>
+              <span class="err">이메일 주소를 정확히 입력해 주세요.</span></label>
+            <label class="field"><span>사무소명 <span class="req">*</span></span>
+              <input class="f" type="text" id="office" name="office" autocomplete="organization" maxlength="60" placeholder="사무소명" required>
+              <span class="err">사무소명을 입력해 주세요.</span></label>
+          </div>
+
+          <label class="field"><span>듣고 싶은 내용 <span class="opt">선택</span></span>
+            <textarea class="f" id="topic" name="topic" rows="4" maxlength="1000" placeholder="궁금한 기능이나 다뤄 줬으면 하는 내용을 적어 주세요"></textarea></label>
 
           <!-- 스팸 방지: 사람에게는 보이지 않는 칸. 채워져 오면 서버가 버린다 -->
-          <div class="hp" aria-hidden="true">
-            <label for="website">웹사이트</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-          </div>
+          <div class="hp" aria-hidden="true"><label for="website">웹사이트</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
 
-          <div class="field" style="margin-bottom:0">
+          <div class="field consent-wrap">
             <div class="consent" id="consent">
               <div class="consent-row">
-                <input type="checkbox" id="agree" name="agree" required>
-                <label class="txt" for="agree"><em>[필수]</em>개인정보 수집·이용 동의</label>
-                <button type="button" class="consent-toggle" id="consentToggle" aria-expanded="false" aria-controls="consentBody">보기
-                  <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <label><input type="checkbox" id="agree" name="agree" required><span><span class="req">[필수]</span> 개인정보 수집·이용 동의</span></label>
+                <button type="button" id="consentToggle" aria-expanded="false" aria-controls="consentBody">보기 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
               </div>
               <div class="consent-body" id="consentBody">
                 <table id="consentTable"></table>
                 <p class="note">동의를 거부할 수 있으나, 거부하면 세미나 신청이 제한됩니다.</p>
               </div>
             </div>
-            <div class="err">개인정보 수집·이용에 동의해 주세요.</div>
+            <span class="err" role="alert">개인정보 수집·이용에 동의해 주세요.</span>
           </div>
 
-          <div class="submit-row">
-            <button type="submit" class="btn btn-primary" id="submitBtn">신청하기</button>
+          <div class="submit">
+            <button type="submit" class="btn-p" id="submitBtn">세미나 신청하기</button>
+            <div class="form-msg" id="formMsg" role="alert"></div>
           </div>
-          <div class="form-msg" id="formMsg" role="alert"></div>
         </form>
 
         <div class="done" id="done" role="status">
-          <div class="check" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#12997A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3>신청이 완료되었습니다</h3>
-          <p>세모리포트 사용법 교육 세미나에 신청해 주셔서 감사합니다.</p>
-          <div class="sum" id="doneSummary"></div>
+          <span class="ck" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="m5 11.5 4 4 8-9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>신청이 접수되었습니다.</h3>
+          <p id="doneSummary"></p>
+          <button type="button" class="btn-o" id="resetBtn">다른 회차 신청하기</button>
         </div>
       </div>
     </div>
@@ -410,8 +417,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
         <h2>궁금한 점이 있으신가요?</h2>
         <p>세미나에 대한 문의는 채팅 상담으로 남겨 주세요.</p>
       </div>
-      <a class="btn btn-sos" id="contactBtn" href="#" target="_blank" rel="noopener noreferrer">채팅 문의하기
-        <svg class="arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn-w" id="contactBtn" href="#" target="_blank" rel="noopener noreferrer">채팅 문의하기<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M4 10 10 4M5 4h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </section>
 </main>
@@ -426,13 +432,23 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px}
 var SEMINAR = {
   title: '세모리포트 사용법 교육 세미나',
   format: '온라인',
+  formatDetail: '온라인 · 어디서나 참여',
   scheduleRule: { weekOfMonth: 3, weekday: 3 },  // 매월 셋째 주(3) 수요일(0=일 … 3=수)
   scheduleLabel: '매월 셋째 주 수요일',
-  time: null,                 // 예: '14:00 ~ 15:30' — 확정되면 입력
-  capacityLabel: '제한 없음',
+  duration: '30분',           // 소요 시간(디자인 캔버스 v01.01 확정)
+  time: null,                 // 시작 시각 예: '14:00' — 확정되면 입력
+  capacityLabel: '제한 없음 · 누구나 신청',
+  capacityShort: '정원 제한 없음',
   deadlineLabel: '상시 접수',
   upcomingCount: 3,           // 화면에 보여줄 다가오는 회차 수
   openFrom: '2026-12-01',     // 이 날짜 이전 회차는 보여주지·받지 않음(Code.gs CONFIG.openFrom 과 같게). null 이면 제한 없음
+  curriculumIntro: '세모리포트의 다양한 기능을 활용해 고객에게 한발 앞선 서비스를 제공하고, 반복 업무까지 효율적으로 관리하는 실전 활용 노하우를 알려드립니다.',
+  curriculum: [
+    ['사무소 브랜딩', '우리 사무소에 맞는 초기 셋업'],
+    ['보고서 구성', '고객 만족도를 높이는 맞춤형 보고서 만들기'],
+    ['업무 자동화', '매월 반복되는 보고서 자동발송 설정'],
+    ['고객 관리', 'VIP 고객을 위한 특화 기능 활용법']
+  ],
   contactUrl: 'https://qe398.channel.io',
   logoUrl: 'logo.png',        // 공식 로고(드라이브 세모디자인/SEMOR_logo_Br.png 축소본). null 이면 글자 로고
   privacy: {
@@ -443,7 +459,7 @@ var SEMINAR = {
   // Apps Script 웹 앱 주소(설치안내.md 2단계에서 발급). 비어 있으면 신청 버튼이 막힌다.
   endpoint: 'https://script.google.com/macros/s/AKfycbxfhjbHhWALDw0XLK0s8HUXBkQbksgP0hjSZ3Bdf3uJSOsZMZLmcKXy2BF6H8a8vtxvVw/exec'
 };
-var PAGE_VERSION = 'v01.05';
+var PAGE_VERSION = 'v02.00';
 
 /* ── 회차 계산 ─────────────────────────────────────────────── */
 // 한국 시간 기준 '오늘' (방문자 기기 시간대와 무관하게)
@@ -474,72 +490,68 @@ function dday(s, now){
   var diff = Math.round((Date.UTC(s.y, s.m, s.d) - Date.UTC(t.y, t.m, t.d)) / 86400000);
   return diff <= 0 ? 'D-DAY' : 'D-' + diff;
 }
-// D-day 가 7일 이내면 「상승」 빨강(임박), 아니면 「하강」 파랑 — 가이드 수치 표현 색
-function ddaySoon(s, now){
-  var t = todayKST(now);
-  return (Date.UTC(s.y, s.m, s.d) - Date.UTC(t.y, t.m, t.d)) / 86400000 <= 7;
-}
-// 안내 줄 아이콘 — 가이드 별도 컬러를 의미에 맞게
-var FACT_ICON = {
-  '일정': ['var(--cert)', '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
-  '시간': ['var(--cert)', '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'],
-  '진행 방식': ['var(--link)', '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'],
-  '정원': ['var(--sos-2)', '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.3c3 .2 5.5 2.6 5.5 5.7"/>'],
-  '신청 마감': ['var(--mint)', '<path d="M5 12.5l4.5 4.5L19 7.5"/>']
-};
-function factIcon(k){
-  var ic = FACT_ICON[k]; if (!ic) return '';
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="' + ic[0] + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic[1] + '</svg>';
-}
 function pad(n){ return (n < 10 ? '0' : '') + n; }
 var WD = ['일','월','화','수','목','금','토'];
 function wd(){ return WD[SEMINAR.scheduleRule.weekday]; }
-function metaLine(s){ return s.y + '년 · ' + SEMINAR.format + (SEMINAR.time ? ' · ' + SEMINAR.time : ''); }
+function mmdd(s){ return pad(s.m + 1) + '.' + pad(s.d); }
+function longDay(s){ return (s.m + 1) + '월 ' + s.d + '일 ' + wd() + '요일'; }
+function shortDay(s){ return (s.m + 1) + '월 ' + s.d + '일'; }
+function joinDot(a){ return a.filter(Boolean).join(' · '); }
 
 /* ── 화면 그리기 ───────────────────────────────────────────── */
 function esc(v){ return String(v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 var SESSIONS = [];
 
+// 대시보드 목업 막대(디자인 캔버스 값 그대로 — 화면 장식용 예시)
+var BAR_SENT = [96, 120, 104, 88, 100, 92], BAR_RATE = [34, 38, 35, 37, 36, 36];
+
 function render(){
   var list = SESSIONS = upcomingSessions(SEMINAR.upcomingCount);
 
-  // 로고: 파일이 지정되면 이미지로 교체
   if (SEMINAR.logoUrl){
-    document.getElementById('brandText').innerHTML = '<img class="logo-img" src="' + esc(SEMINAR.logoUrl) + '" alt="세모리포트" width="102" height="24">';
+    document.getElementById('brandText').innerHTML = '<img src="' + esc(SEMINAR.logoUrl) + '" alt="세모리포트" width="102" height="24">';
   }
+  document.getElementById('eyebrow').textContent = joinDot([SEMINAR.scheduleLabel, SEMINAR.format, SEMINAR.duration]);
 
   if (list.length){
     var n = list[0];
-    document.getElementById('heroNextDate').innerHTML = pad(n.m + 1) + '<span class="dot">.</span>' + pad(n.d);
-    document.getElementById('heroNextDay').textContent = wd() + '요일';
-    document.getElementById('heroNextMeta').textContent = metaLine(n);
-    var dd = document.getElementById('heroDday'); dd.textContent = dday(n); dd.classList.toggle('soon', ddaySoon(n));
+    document.getElementById('heroNextDate').textContent = mmdd(n);
+    document.getElementById('heroNextDay').textContent = joinDot([wd() + '요일', SEMINAR.format]);
+    document.getElementById('heroNextMeta').textContent = joinDot([n.y + '년', SEMINAR.time, SEMINAR.duration, SEMINAR.capacityShort]);
+    document.getElementById('heroDday').textContent = dday(n);
   }
+
+  document.getElementById('bars').innerHTML = BAR_SENT.map(function(h, i){
+    return '<div><span class="s" style="height:' + h + 'px"></span><span class="r" style="height:' + Math.round(h * BAR_RATE[i] / 100) + 'px"></span></div>';
+  }).join('');
+  document.getElementById('barMonths').innerHTML = BAR_SENT.map(function(_, i){ return '<span>' + (i + 1) + '월</span>'; }).join('');
 
   var facts = [
     ['일정', SEMINAR.scheduleLabel],
     ['시간', SEMINAR.time],
-    ['진행 방식', SEMINAR.format],
+    ['진행 방식', SEMINAR.formatDetail],
+    ['소요 시간', SEMINAR.duration],
     ['정원', SEMINAR.capacityLabel],
     ['신청 마감', SEMINAR.deadlineLabel]
   ].filter(function(f){ return f[1]; });
   document.getElementById('facts').innerHTML = facts.map(function(f){
-    return '<div class="fact"><div class="k">' + factIcon(f[0]) + esc(f[0]) + '</div><div class="v">' + esc(f[1]) + '</div></div>';
+    return '<div class="fact"><span class="k">' + esc(f[0]) + '</span><span class="v">' + esc(f[1]) + '</span></div>';
+  }).join('');
+
+  document.getElementById('curriIntro').textContent = SEMINAR.curriculumIntro;
+  document.getElementById('curriMeta').textContent = joinDot([SEMINAR.duration, SEMINAR.format, SEMINAR.curriculum.length + '개 주제']);
+  document.getElementById('curriList').innerHTML = SEMINAR.curriculum.map(function(c, i){
+    return '<li><span class="n">' + pad(i + 1) + '</span><div class="c"><span>' + esc(c[0]) + '</span><b>' + esc(c[1]) + '</b></div></li>';
   }).join('');
 
   document.getElementById('sessions').innerHTML = list.map(function(s, i){
-    return '<li class="session' + (i === 0 ? ' is-next' : '') + '">' +
-      '<div class="when num">' + pad(s.m + 1) + '.' + pad(s.d) + '<small>' + s.y + '</small></div>' +
-      '<div class="info"><div class="date">' + (s.m + 1) + '월 ' + s.d + '일 ' + wd() + '요일' + (i === 0 ? '<span class="tag">다음 회차</span>' : '') + '</div>' +
-      '<div class="meta"><span class="num dd' + (ddaySoon(s) ? ' soon' : '') + '">' + dday(s) + '</span> · ' + esc(SEMINAR.format) + (SEMINAR.time ? ' · ' + esc(SEMINAR.time) : '') + '</div></div>' +
-      '<button type="button" class="pick" data-key="' + s.key + '">이 회차 신청</button>' +
-      '</li>';
+    return '<button type="button" class="sess" role="radio" aria-checked="false" data-key="' + s.key + '">' +
+      '<span class="d"><b>' + mmdd(s) + '</b><span>' + s.y + '</span></span>' +
+      '<span class="i"><span class="t">' + longDay(s) + (i === 0 ? '<em>다음 회차</em>' : '') + '</span>' +
+      '<span class="m"><b>' + dday(s) + '</b> · ' + esc(joinDot([SEMINAR.format, SEMINAR.time, SEMINAR.duration])) + '</span></span>' +
+      '<span class="radio" aria-hidden="true"></span></button>';
   }).join('');
-
-  document.getElementById('session').innerHTML = list.map(function(s, i){
-    return '<option value="' + s.key + '"' + (i === 0 ? ' selected' : '') + '>' + s.y + '.' + pad(s.m + 1) + '.' + pad(s.d) + ' (' + wd() + ')' + (i === 0 ? ' · 다음 회차' : '') + '</option>';
-  }).join('');
-  updateSelected();
+  if (list.length) pickSession(list[0].key);
 
   var p = SEMINAR.privacy;
   document.getElementById('consentTable').innerHTML =
@@ -555,17 +567,27 @@ function render(){
   }
 }
 
-// 신청 영역 왼쪽 「선택한 회차」 요약을 현재 선택값으로 갱신
-function updateSelected(){
-  var key = document.getElementById('session').value, s = null;
-  for (var i = 0; i < SESSIONS.length; i++) if (SESSIONS[i].key === key) s = SESSIONS[i];
-  document.getElementById('selDate').textContent = s ? (s.m + 1) + '월 ' + s.d + '일 ' + wd() + '요일' : '—';
-  document.getElementById('selMeta').textContent = s ? metaLine(s) + ' · ' + dday(s) : '';
+function sessionByKey(key){
+  for (var i = 0; i < SESSIONS.length; i++) if (SESSIONS[i].key === key) return SESSIONS[i];
+  return null;
+}
+// 회차 카드 선택 → 신청서의 회차·요약·버튼 문구에 반영
+function pickSession(key){
+  var s = sessionByKey(key); if (!s) return;
+  document.getElementById('session').value = key;
+  Array.prototype.forEach.call(document.querySelectorAll('.sess'), function(b){
+    b.setAttribute('aria-checked', b.getAttribute('data-key') === key ? 'true' : 'false');
+  });
+  document.getElementById('selDateBig').textContent = mmdd(s);
+  document.getElementById('selDate').textContent = longDay(s);
+  document.getElementById('selMeta').textContent = joinDot([s.y + '년', SEMINAR.format, SEMINAR.time, SEMINAR.duration, dday(s)]) + ' — 왼쪽 일정에서 변경할 수 있습니다.';
+  if (!submitting) document.getElementById('submitBtn').textContent = shortDay(s) + ' 세미나 신청하기';
+  var f = document.getElementById('session').closest('.field'); f.classList.remove('has-error');
 }
 
 /* ── 입력 검증 ─────────────────────────────────────────────── */
 var RULES = {
-  session: function(v){ return !!v; },
+  session: function(v){ return !!sessionByKey(v); },
   name:    function(v){ return v.trim().length >= 1 && v.trim().length <= 30; },
   phone:   function(v){ var d = v.replace(/\D/g, ''); return /^0\d{8,10}$/.test(d); },
   email:   function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
@@ -580,7 +602,7 @@ function validate(){
     fieldOf(el).classList.toggle('has-error', !ok);
     if (!ok && !firstBad) firstBad = el;
   });
-  if (firstBad) firstBad.focus();
+  if (firstBad) (firstBad.type === 'hidden' ? document.querySelector('.sess') : firstBad).focus();
   return !firstBad;
 }
 // 연락처 자동 하이픈
@@ -613,7 +635,7 @@ function onSubmit(e){
   if (!validate()) return;
 
   var f = document.getElementById('applyForm').elements;
-  var sel = f.session.options[f.session.selectedIndex];
+  var s = sessionByKey(f.session.value);
   var payload = {
     session: f.session.value,
     name: f.name.value.trim(),
@@ -635,7 +657,7 @@ function onSubmit(e){
     .then(function(r){ return r.json(); })
     .then(function(res){
       if (res && res.ok){
-        showDone(payload, sel ? sel.textContent.replace(' · 다음 회차', '') : payload.session, res.duplicate);
+        showDone(s, res.duplicate);
       } else {
         showMsg('error', (res && res.message) || '신청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.');
       }
@@ -645,20 +667,25 @@ function onSubmit(e){
     })
     .then(function(){
       submitting = false;
-      btn.disabled = false; btn.textContent = '신청하기';
+      btn.disabled = false;
+      var cur = sessionByKey(document.getElementById('session').value);
+      btn.textContent = cur ? shortDay(cur) + ' 세미나 신청하기' : '세미나 신청하기';
     });
 }
-function showDone(p, sessionLabel, duplicate){
+function showDone(s, duplicate){
   document.getElementById('applyForm').style.display = 'none';
   var d = document.getElementById('done');
-  d.querySelector('h3').textContent = duplicate ? '이미 신청된 회차입니다' : '신청이 완료되었습니다';
-  document.getElementById('doneSummary').innerHTML =
-    '<div><b>참여 회차</b><span>' + esc(sessionLabel) + '</span></div>' +
-    '<div><b>이름</b><span>' + esc(p.name) + '</span></div>' +
-    '<div><b>사무소명</b><span>' + esc(p.office) + '</span></div>' +
-    '<div><b>이메일</b><span>' + esc(p.email) + '</span></div>';
+  d.querySelector('h3').textContent = duplicate ? '이미 신청된 회차입니다.' : '신청이 접수되었습니다.';
+  document.getElementById('doneSummary').textContent = joinDot([s.y + '년 ' + longDay(s), SEMINAR.format, SEMINAR.time, SEMINAR.duration, dday(s)]);
   d.classList.add('show');
   d.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function resetForm(){
+  var form = document.getElementById('applyForm');
+  form.reset(); form.style.display = '';
+  document.getElementById('done').classList.remove('show');
+  if (SESSIONS.length) pickSession(SESSIONS[0].key);
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -666,29 +693,33 @@ document.addEventListener('DOMContentLoaded', function(){
   var form = document.getElementById('applyForm');
   form.addEventListener('submit', onSubmit);
   form.elements.phone.addEventListener('input', function(){ this.value = formatPhone(this.value); });
-  form.elements.session.addEventListener('change', updateSelected);
   // 고치는 즉시 오류 표시를 지운다
-  Object.keys(RULES).forEach(function(k){
+  ['name','phone','email','office','agree'].forEach(function(k){
     var el = form.elements[k];
-    el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', function(){
+    el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', function(){
       if (fieldOf(el).classList.contains('has-error') && RULES[k](el.value || '', el)) fieldOf(el).classList.remove('has-error');
     });
   });
-
-  // 일정 목록의 「이 회차 신청」 → 신청서 회차를 그 날짜로 맞추고 신청서로 이동
-  document.getElementById('sessions').addEventListener('click', function(e){
-    var b = e.target.closest('.pick'); if (!b) return;
-    form.elements.session.value = b.getAttribute('data-key');
-    updateSelected();
-    document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+  // 회차 카드 선택(클릭·방향키)
+  var group = document.getElementById('sessions');
+  group.addEventListener('click', function(e){
+    var b = e.target.closest('.sess'); if (b) pickSession(b.getAttribute('data-key'));
   });
-
+  group.addEventListener('keydown', function(e){
+    if (['ArrowDown','ArrowUp','ArrowRight','ArrowLeft'].indexOf(e.key) < 0) return;
+    var btns = Array.prototype.slice.call(group.querySelectorAll('.sess'));
+    var i = btns.indexOf(document.activeElement); if (i < 0) return;
+    e.preventDefault();
+    var j = (i + (e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length;
+    btns[j].focus(); pickSession(btns[j].getAttribute('data-key'));
+  });
   // 개인정보 동의 내용 펼치기/접기
   document.getElementById('consentToggle').addEventListener('click', function(){
     var box = document.getElementById('consent'), open = box.classList.toggle('open');
     this.firstChild.nodeValue = open ? '접기 ' : '보기 ';
     this.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
+  document.getElementById('resetBtn').addEventListener('click', resetForm);
 });
 </script>
 </body>
